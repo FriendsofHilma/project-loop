@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kosmiska kuben — nivå 4</title>
+<style>
+  :root {
+    --paper: #faf8f3;
+    --ink: #1b1b1f;
+    --muted: #6b6b76;
+    --rule: #d8d5cc;
+    --surface: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: var(--paper); }
+  body { font-family: Georgia, 'Times New Roman', serif; color: var(--ink); }
+  canvas { display: block; }
+  .panel {
+    position: absolute; top: 18px; left: 18px; width: 318px; max-height: calc(100% - 36px);
+    overflow: auto; padding: 16px 18px; background: rgba(250,248,243,.95);
+    border: 1px solid var(--rule); border-radius: 5px; box-shadow: 0 6px 24px rgba(27,27,31,.08);
+  }
+  h1 { margin: 0 0 4px; font-size: 18px; line-height: 1.2; }
+  h2 { margin: 16px 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  p { margin: 6px 0; font-size: 12.5px; line-height: 1.45; }
+  .pill { display: inline-block; padding: 2px 7px; border: 1px solid var(--rule); border-radius: 12px; font-size: 10.5px; color: var(--muted); }
+  code { font-family: 'Courier New', monospace; font-size: 11.5px; background: var(--surface); padding: 1px 3px; }
+  label { display: block; font-size: 12px; margin: 9px 0 3px; }
+  input[type=range] { width: 100%; }
+  .checks label { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+  .legend { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+  .legend div { text-align: center; font-size: 10px; color: var(--muted); }
+  .swatch { height: 18px; border: 1px solid var(--rule); border-radius: 2px; margin-bottom: 2px; }
+  .count { font-weight: bold; }
+  a { color: var(--ink); }
+  .foot { font-size: 10.5px; font-style: italic; color: var(--muted); }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "/node_modules/three/build/three.module.js",
+    "three/addons/": "/node_modules/three/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<aside class="panel">
+  <h1>Kosmiska kuben — nivå 4</h1>
+  <p><span class="pill">[I] demodata</span> <span class="pill">13 × 13 × 13</span></p>
+  <p>Interactive visualisering av adress- och värderelationer. Inte ett forskningsresultat och inte en tolkning av någon målning.</p>
+
+  <h2>Värdefunktion</h2>
+  <p><code>v(x,y,z) = (x + y + z) mod 10</code></p>
+  <p class="count" id="count">2 197 celler visas</p>
+
+  <h2>Filter</h2>
+  <label for="min">Lägsta värde: <span id="minLabel">0</span></label>
+  <input id="min" type="range" min="0" max="9" value="0">
+  <label for="max">Högsta värde: <span id="maxLabel">9</span></label>
+  <input id="max" type="range" min="0" max="9" value="9">
+
+  <div class="checks">
+    <label><input id="complement" type="checkbox"> Visa komplement <code>9 − v</code></label>
+    <label><input id="grid" type="checkbox" checked> Visa rutnät</label>
+    <label><input id="rotate" type="checkbox" checked> Långsam rotation</label>
+  </div>
+
+  <h2>Värde → färg</h2>
+  <div class="legend" id="legend"></div>
+
+  <h2>Källa och metod</h2>
+  <p class="foot">Renderer: <code>three@0.136.0</code> + OrbitControls. Tokens: <a href="../GRAFISK_PROFIL.md">GRAFISK_PROFIL.md</a>. Adresslogik: <code>AGENTS.md</code> §C-implementation. Inga externa tjänster.</p>
+</aside>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const PALETTE = [
+  0x0a0a0a, 0xffd600, 0x219a9d, 0xe63946, 0x2a9d8f,
+  0x9c2cbd, 0x38bdf8, 0xf472b6, 0xff8c42, 0xff5f57,
+];
+const N = 13;
+const SPACING = 0.95;
+const COLORS = PALETTE.map((h) => new THREE.Color(h));
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xfaf8f3);
+
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 200);
+camera.position.set(19, 15, 23);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.06;
+controls.autoRotateSpeed = 0.45;
+controls.target.set(0, 0, 0);
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.72));
+const key = new THREE.DirectionalLight(0xffffff, 0.55);
+key.position.set(12, 18, 14);
+scene.add(key);
+const fill = new THREE.DirectionalLight(0xb8d8d6, 0.28);
+fill.position.set(-12, -6, -10);
+scene.add(fill);
+
+const grid = new THREE.GridHelper(N * SPACING, N, 0xd8d5cc, 0xe6e2d8);
+grid.position.y = -N * SPACING / 2 - 0.4;
+scene.add(grid);
+
+const box = new THREE.Box3Helper(
+  new THREE.Box3(
+    new THREE.Vector3(-N * SPACING / 2, -N * SPACING / 2, -N * SPACING / 2),
+    new THREE.Vector3(N * SPACING / 2, N * SPACING / 2, N * SPACING / 2)
+  ),
+  0x6b6b76
+);
+scene.add(box);
+
+const geometry = new THREE.SphereGeometry(0.26, 12, 10);
+const material = new THREE.MeshStandardMaterial({ roughness: 0.42, metalness: 0.05 });
+const total = N * N * N;
+const mesh = new THREE.InstancedMesh(geometry, material, total);
+scene.add(mesh);
+
+const positions = new Float32Array(total * 3);
+const baseValues = new Uint8Array(total);
+let i = 0;
+for (let z = 0; z < N; z++) {
+  for (let y = 0; y < N; y++) {
+    for (let x = 0; x < N; x++) {
+      positions[i * 3] = (x - (N - 1) / 2) * SPACING;
+      positions[i * 3 + 1] = (y - (N - 1) / 2) * SPACING;
+      positions[i * 3 + 2] = (z - (N - 1) / 2) * SPACING;
+      baseValues[i] = (x + y + z) % 10;
+      i++;
+    }
+  }
+}
+
+const dummy = new THREE.Object3D();
+const min = document.querySelector('#min');
+const max = document.querySelector('#max');
+const minLabel = document.querySelector('#minLabel');
+const maxLabel = document.querySelector('#maxLabel');
+const complement = document.querySelector('#complement');
+const rotate = document.querySelector('#rotate');
+const gridToggle = document.querySelector('#grid');
+const count = document.querySelector('#count');
+
+function update() {
+  let lo = Number(min.value);
+  let hi = Number(max.value);
+  if (lo > hi) {
+    if (document.activeElement === min) { hi = lo; max.value = String(hi); }
+    else { lo = hi; min.value = String(lo); }
+  }
+  minLabel.textContent = String(lo);
+  maxLabel.textContent = String(hi);
+
+  let shown = 0;
+  for (let k = 0; k < total; k++) {
+    const v = complement.checked ? 9 - baseValues[k] : baseValues[k];
+    const visible = v >= lo && v <= hi;
+    const scale = visible ? 0.48 + (v / 9) * 1.05 : 0.0001;
+    dummy.position.set(positions[k * 3], positions[k * 3 + 1], positions[k * 3 + 2]);
+    dummy.scale.setScalar(scale);
+    dummy.updateMatrix();
+    mesh.setMatrixAt(k, dummy.matrix);
+    mesh.setColorAt(k, COLORS[v]);
+    if (visible) shown++;
+  }
+  mesh.instanceMatrix.needsUpdate = true;
+  if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+  grid.visible = gridToggle.checked;
+  box.visible = gridToggle.checked;
+  controls.autoRotate = rotate.checked;
+  count.textContent = `${shown.toLocaleString('sv-SE')} av ${total.toLocaleString('sv-SE')} celler visas`;
+}
+
+for (const el of [min, max, complement, rotate, gridToggle]) el.addEventListener('input', update);
+
+const legend = document.querySelector('#legend');
+PALETTE.forEach((hex, v) => {
+  const div = document.createElement('div');
+  div.innerHTML = `<div class="swatch" style="background:#${hex.toString(16).padStart(6, '0')}"></div>${v}`;
+  legend.appendChild(div);
+});
+
+update();
+
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ouroboros – draken i matrisen</title>
+<style>
+  :root { color-scheme: dark; --ink:#eef2ff; --muted:#9aa7c7; --gold:#ffd479; --hot:#ff8c69; --cool:#8fa0ff; }
+  * { box-sizing: border-box; }
+  html, body { height:100%; margin:0; background:#04050c; color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif; overflow:hidden; }
+  .app { position:relative; display:grid; grid-template-rows:auto 1fr; gap:3px;
+    height:100%; padding:3px; }
+  .panes { position:relative; display:grid; grid-template-columns:1fr 1fr; gap:3px; min-height:0; }
+  .pane { position:relative; overflow:hidden; border-radius:10px; background:#04050c;
+    box-shadow:inset 0 0 0 1px rgba(143,160,255,.12); }
+  .pane canvas { position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .label { position:absolute; z-index:2; bottom:12px; left:14px; font-size:.72rem;
+    letter-spacing:.14em; text-transform:uppercase; color:#8b98bd;
+    background:rgba(6,8,20,.62); padding:.34rem .6rem; border-radius:999px;
+    border:1px solid rgba(143,160,255,.18); backdrop-filter:blur(4px); }
+  .hud { position:relative; z-index:4; display:flex; flex-wrap:wrap; align-items:center;
+    gap:.35rem 1rem; padding:.55rem .85rem; border-radius:12px;
+    background:rgba(7,9,24,.85); border:1px solid rgba(160,180,255,.24);
+    backdrop-filter:blur(7px); box-shadow:0 10px 34px rgba(0,0,0,.4); }
+  .title { font-size:.92rem; margin:0; letter-spacing:.02em; white-space:nowrap; }
+  .stats { font-variant-numeric:tabular-nums; font-size:.8rem; color:var(--muted); }
+  .stats b { color:var(--ink); font-weight:600; }
+  .status { font-size:.8rem; font-weight:600; color:var(--gold); }
+  .hint { color:#6f7da2; font-size:.68rem; }
+  button { margin-left:auto; padding:.36rem .8rem; border-radius:999px; cursor:pointer;
+    border:1px solid #8fa0ff; background:#161b3a; color:var(--ink); font:inherit; font-size:.74rem; }
+  button:hover { background:#202754; }
+  .bite { position:absolute; z-index:6; inset:0; display:grid; place-items:center;
+    pointer-events:none; opacity:0; transition:opacity .25s ease; }
+  .bite.show { opacity:1; }
+  .bite span { padding:1rem 1.4rem; border-radius:16px; text-align:center;
+    font-size:clamp(1rem,2.6vw,1.8rem); font-weight:700; letter-spacing:.06em;
+    color:#ffe9b8; background:rgba(20,6,4,.78); border:1px solid rgba(255,140,105,.55);
+    box-shadow:0 0 60px rgba(255,140,105,.35); }
+  .bite small { display:block; margin-top:.4rem; font-size:.62em; font-weight:500;
+    letter-spacing:.18em; color:#ff9f7f; }
+  @media (max-width: 760px) {
+    .panes { grid-template-columns:1fr; grid-template-rows:1fr 1fr; }
+    .title { font-size:.82rem; }
+    .stats, .status { font-size:.72rem; }
+    .hint { display:none; }
+    .label { font-size:.62rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bite { transition:none; }
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="hud" aria-label="Status">
+    <div class="title">Ouroboros – draken i matrisen</div>
+    <div class="stats">
+      Pixel <b id="pixels">0</b> ·
+      Längd <b id="len">1</b>/<span id="total">0</span> ·
+      Täckt <b id="cov">0 %</b> ·
+      Primtalspulser <b id="primes">0</b>
+    </div>
+    <div class="status" id="status" role="status" aria-live="polite">Framåt — alla rutor är svarta till att börja med.</div>
+    <div class="hint">Space pausar · R startar om · varje ny ruta får en slumpad färg</div>
+    <button id="restart" type="button">Starta om loopen</button>
+  </header>
+
+  <div class="panes">
+    <section class="pane">
+      <canvas id="ext" aria-label="Draken sedd utifrån i matrisen"></canvas>
+      <div class="label">Utifrån</div>
+    </section>
+    <section class="pane">
+      <canvas id="pov" aria-label="Rymden sedd från drakens perspektiv"></canvas>
+      <div class="label">Drakens perspektiv</div>
+    </section>
+
+    <div class="bite" id="bite"><span>DRAKEN BITER SIG SJÄLV I SVANSEN<small>OUROBOROS</small></span></div>
+  </div>
+</main>
+
+<script src="dragon.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  const L = window.DragonLogic;
+  if (!L) throw new Error("dragon.js kunde inte laddas");
+
+  const params = new URLSearchParams(location.search);
+  function readInt(name, fallback, min, max) {
+    const raw = params.get(name);
+    if (raw === null || raw.trim() === "") return fallback;
+    const n = Number(raw);
+    return Number.isFinite(n) ? Math.min(max, Math.max(min, Math.floor(n))) : fallback;
+  }
+  const CFG = {
+    seed: readInt("seed", 0, 0, 2147483647),
+    pace: readInt("pace", 42, 12, 400),
+    cell: readInt("cell", 0, 0, 60)
+  };
+  const BASE_SEED = CFG.seed || 0x9e3779b9;
+
+  const extPane = document.getElementById("ext");
+  const povPane = document.getElementById("pov");
+  const extCtx = extPane.getContext("2d");
+  const povCtx = povPane.getContext("2d");
+  const field = document.createElement("canvas");
+  const fieldCtx = field.getContext("2d");
+  const els = {
+    pixels: document.getElementById("pixels"),
+    len: document.getElementById("len"),
+    total: document.getElementById("total"),
+    cov: document.getElementById("cov"),
+    primes: document.getElementById("primes"),
+    status: document.getElementById("status"),
+    bite: document.getElementById("bite"),
+    restart: document.getElementById("restart")
+  };
+
+  let W = 0, H = 0, dpr = 1, cell = 18, ox = 0, oy = 0;
+  let st = null;
+  let loop = 0;
+  let paused = false;
+  let lastStep = 0;
+  let finishedAt = 0;
+  let raf = null;
+  let reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function surfaces() {
+    const rect = extPane.getBoundingClientRect();
+    W = Math.max(200, rect.width);
+    H = Math.max(160, rect.height);
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    extPane.width = Math.floor(W * dpr);
+    extPane.height = Math.floor(H * dpr);
+    extCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const povRect = povPane.getBoundingClientRect();
+    povPane.width = Math.floor(Math.max(200, povRect.width) * dpr);
+    povPane.height = Math.floor(Math.max(160, povRect.height) * dpr);
+    povCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function repaintField() {
+    field.width = st.cols * cell;
+    field.height = st.rows * cell;
+    fieldCtx.setTransform(1, 0, 0, 1, 0, 0);
+    fieldCtx.clearRect(0, 0, field.width, field.height);
+    paintVisited();
+  }
+
+  // Ny rymd: beräknar rutnätet och skapar en ny cykel.
+  function initField() {
+    surfaces();
+    // Ungefär 1 600 rutor: stort nog att fylla rummet, litet nog att växa färdigt.
+    const auto = Math.round(Math.sqrt((W * H) / 1600));
+    cell = CFG.cell || Math.min(30, Math.max(8, auto));
+    const cols = Math.max(12, Math.min(120, Math.floor(W / cell)));
+    const rows = Math.max(10, Math.min(90, Math.floor(H / cell)));
+    st = L.createState(cols, rows, (BASE_SEED + loop) >>> 0);
+    ox = Math.floor((W - cols * cell) / 2);
+    oy = Math.floor((H - rows * cell) / 2);
+    repaintField();
+    els.total.textContent = String(st.total);
+    els.bite.classList.remove("show");
+    finishedAt = 0;
+  }
+
+  // Storleksändring: behåll rymden och framstegen, skala bara om rutorna.
+  function layout() {
+    surfaces();
+    if (!st) return;
+    cell = Math.max(4, Math.min(40, Math.floor(Math.min(W / st.cols, H / st.rows))));
+    ox = Math.floor((W - st.cols * cell) / 2);
+    oy = Math.floor((H - st.rows * cell) / 2);
+    repaintField();
+  }
+
+  function paintVisited() {
+    for (let i = 0; i < st.order.length; i += 1) {
+      const p = st.order[i];
+      const c = st.colors[p.y * st.cols + p.x];
+      if (!c) continue;
+      fieldCtx.fillStyle = c;
+      fieldCtx.fillRect(p.x * cell + 1, p.y * cell + 1, cell - 2, cell - 2);
+    }
+  }
+
+  function paintCell(p) {
+    const c = st.colors[p.y * st.cols + p.x];
+    if (!c) return;
+    fieldCtx.fillStyle = c;
+    fieldCtx.fillRect(p.x * cell + 1, p.y * cell + 1, cell - 2, cell - 2);
+  }
+
+  function drawExt() {
+    extCtx.clearRect(0, 0, W, H);
+    extCtx.fillStyle = "#04050c";
+    extCtx.fillRect(0, 0, W, H);
+    extCtx.drawImage(field, ox, oy);
+
+    // Svag rutnätsstruktur så att den ännu svarta rymden syns.
+    extCtx.strokeStyle = "rgba(120,140,220,.07)";
+    extCtx.lineWidth = 1;
+    extCtx.beginPath();
+    for (let x = 0; x <= st.cols; x += 4) {
+      extCtx.moveTo(ox + x * cell, oy);
+      extCtx.lineTo(ox + x * cell, oy + st.rows * cell);
+    }
+    for (let y = 0; y <= st.rows; y += 4) {
+      extCtx.moveTo(ox, oy + y * cell);
+      extCtx.lineTo(ox + st.cols * cell, oy + y * cell);
+    }
+    extCtx.stroke();
+
+    const pts = st.order;
+    if (pts.length > 1) {
+      extCtx.beginPath();
+      extCtx.moveTo(ox + (pts[0].x + 0.5) * cell, oy + (pts[0].y + 0.5) * cell);
+      for (let i = 1; i < pts.length; i += 1) {
+        extCtx.lineTo(ox + (pts[i].x + 0.5) * cell, oy + (pts[i].y + 0.5) * cell);
+      }
+      extCtx.strokeStyle = "rgba(255,212,121,.30)";
+      extCtx.lineWidth = Math.max(2, cell * 0.42);
+      extCtx.lineCap = "round";
+      extCtx.lineJoin = "round";
+      extCtx.stroke();
+    }
+
+    // Huvudet: en liten kil som pekar i färdriktningen och pulserar vänster vid primtal.
+    const hx = ox + (st.head.x + 0.5) * cell;
+    const hy = oy + (st.head.y + 0.5) * cell;
+    const ang = -st.heading * Math.PI / 2 - st.pulse * 0.5;
+    extCtx.save();
+    extCtx.translate(hx, hy);
+    extCtx.rotate(ang);
+    extCtx.fillStyle = st.pulse > 0.2 ? "#ff8c69" : "#ffe6a8";
+    extCtx.shadowColor = st.pulse > 0.2 ? "#ff8c69" : "#ffd479";
+    extCtx.shadowBlur = 14 + st.pulse * 14;
+    extCtx.beginPath();
+    extCtx.moveTo(cell * 0.62, 0);
+    extCtx.lineTo(-cell * 0.34, cell * 0.40);
+    extCtx.lineTo(-cell * 0.10, 0);
+    extCtx.lineTo(-cell * 0.34, -cell * 0.40);
+    extCtx.closePath();
+    extCtx.fill();
+    extCtx.shadowBlur = 0;
+    extCtx.fillStyle = "#140a06";
+    extCtx.beginPath();
+    extCtx.arc(cell * 0.10, cell * 0.16, Math.max(1.2, cell * 0.07), 0, Math.PI * 2);
+    extCtx.arc(cell * 0.10, -cell * 0.16, Math.max(1.2, cell * 0.07), 0, Math.PI * 2);
+    extCtx.fill();
+    extCtx.restore();
+
+    // Svansen markeras när bettet sker.
+    if (st.bitten && pts.length) {
+      const t = pts[0];
+      extCtx.strokeStyle = "#ff8c69";
+      extCtx.lineWidth = 2;
+      extCtx.beginPath();
+      extCtx.arc(ox + (t.x + 0.5) * cell, oy + (t.y + 0.5) * cell, cell * 0.7, 0, Math.PI * 2);
+      extCtx.stroke();
+      extCtx.beginPath();
+      extCtx.moveTo(hx, hy);
+      extCtx.lineTo(ox + (t.x + 0.5) * cell, oy + (t.y + 0.5) * cell);
+      extCtx.strokeStyle = "rgba(255,140,105,.65)";
+      extCtx.stroke();
+    }
+  }
+
+  const DIRS = L.DIRS;
+
+  function drawPov() {
+    const w = povPane.width / dpr;
+    const h = povPane.height / dpr;
+    povCtx.clearRect(0, 0, w, h);
+    povCtx.fillStyle = "#04050c";
+    povCtx.fillRect(0, 0, w, h);
+
+    const horizon = h * 0.46;
+    const focal = h * 0.95;
+    const fwd = DIRS[st.heading];
+    const right = DIRS[(st.heading + 3) % 4];
+    const RANGE = 20;
+    const MAXLAT = 11;
+
+    function proj(t, d, elev) {
+      const z = d + 0.45;
+      return { x: w / 2 + (t / z) * focal, y: horizon + (elev / z) * focal };
+    }
+
+    function tile(d, t, elev, color, alpha) {
+      const a = proj(t - 0.5, d, elev), b = proj(t + 0.5, d, elev);
+      const c = proj(t + 0.5, d + 1, elev), e = proj(t - 0.5, d + 1, elev);
+      if (Math.max(a.x, b.x, c.x, e.x) < -40 || Math.min(a.x, b.x, c.x, e.x) > w + 40) return;
+      povCtx.globalAlpha = alpha;
+      povCtx.fillStyle = color;
+      povCtx.beginPath();
+      povCtx.moveTo(a.x, a.y); povCtx.lineTo(b.x, b.y);
+      povCtx.lineTo(c.x, c.y); povCtx.lineTo(e.x, e.y);
+      povCtx.closePath();
+      povCtx.fill();
+      povCtx.globalAlpha = 1;
+    }
+
+    for (let d = RANGE; d >= 1; d -= 1) {
+      const fade = Math.max(0.10, 1 - d / (RANGE + 2));
+      const lat = Math.min(MAXLAT, Math.ceil(d * 0.85) + 2);
+      for (let t = -lat; t <= lat; t += 1) {
+        const wx = L.wrap(st.head.x + fwd[0] * d + right[0] * t, st.cols);
+        const wy = L.wrap(st.head.y + fwd[1] * d + right[1] * t, st.rows);
+        const idx = wy * st.cols + wx;
+        const c = st.visited[idx] ? st.colors[idx] : "#080a16";
+        tile(d, t, -0.62, c, fade * 0.92);
+        tile(d, t, 0.62, c, fade * 0.55);
+      }
+    }
+
+    // Drakens egen nos och käkar i bildens nederkant. De sluts när rymden är täckt.
+    const open = Math.max(0.08, 1 - st.order.length / st.total);
+    const jaw = h * 0.30 * open + h * 0.05;
+    povCtx.fillStyle = "rgba(12,8,24,.92)";
+    povCtx.beginPath();
+    povCtx.moveTo(-w * 0.05, h);
+    povCtx.quadraticCurveTo(w * 0.5, h - jaw * 2.2, w * 1.05, h);
+    povCtx.lineTo(w * 1.05, h * 1.1);
+    povCtx.lineTo(-w * 0.05, h * 1.1);
+    povCtx.closePath();
+    povCtx.fill();
+    povCtx.strokeStyle = st.pulse > 0.2 ? "#ff8c69" : "#ffd479";
+    povCtx.lineWidth = 2;
+    povCtx.stroke();
+
+    const teeth = 9;
+    povCtx.fillStyle = "#ffe9b8";
+    for (let i = 0; i <= teeth; i += 1) {
+      const x = (i / teeth) * w;
+      const y = h - Math.sin((i / teeth) * Math.PI) * jaw * 0.9;
+      povCtx.beginPath();
+      povCtx.moveTo(x - w * 0.012, y);
+      povCtx.lineTo(x, y - h * 0.035);
+      povCtx.lineTo(x + w * 0.012, y);
+      povCtx.closePath();
+      povCtx.fill();
+    }
+
+    povCtx.fillStyle = "rgba(255,212,121,.10)";
+    povCtx.fillRect(0, horizon - 1, w, 2);
+  }
+
+  function updateHud() {
+    const cov = Math.round((st.order.length / st.total) * 100);
+    els.pixels.textContent = String(st.pixels);
+    els.len.textContent = String(st.order.length);
+    els.cov.textContent = cov + " %";
+    els.primes.textContent = String(st.primeTurns);
+    if (st.bitten) {
+      els.status.textContent = st.tailBite
+        ? "Svansbett! Draken har vuxit genom hela rymden."
+        : "Draken biter sig själv. Loopen börjar om.";
+    } else if (paused) {
+      els.status.textContent = "Pausad — tryck Space för att fortsätta.";
+    } else if (st.pulse > 0.2) {
+      els.status.textContent = "Primtal — draken pulserar vänster.";
+    } else {
+      els.status.textContent = "Framåt — " + cov + " % av rymden är färgad.";
+    }
+  }
+
+  function doStep() {
+    if (!st || st.bitten || paused) return;
+    const e = L.step(st);
+    if (e.moved && !e.bitten) {
+      paintCell(st.head);
+    }
+    updateHud();
+    if (e.bitten) {
+      st.pulse = 1;
+      els.bite.classList.add("show");
+      els.status.textContent = st.tailBite
+        ? "SVANSBETT — draken sträcker sig genom hela rymden."
+        : "Draken biter sig själv.";
+      finishedAt = performance.now();
+    }
+  }
+
+  function loopFrame(now) {
+    if (!st) return;
+    const elapsed = now - lastStep;
+    if (!paused && !st.bitten && elapsed >= CFG.pace) {
+      const steps = Math.min(3, Math.floor(elapsed / CFG.pace));
+      for (let i = 0; i < steps; i += 1) {
+        doStep();
+        if (st.bitten) break;
+      }
+      lastStep = now;
+    }
+    if (st.bitten && finishedAt && now - finishedAt > 3200 && !paused) {
+      loop += 1;
+      initField();
+      lastStep = now;
+    }
+    if (st.pulse > 0 && !st.bitten) {
+      st.pulse = Math.max(0, st.pulse - 0.035);
+    }
+    drawExt();
+    drawPov();
+    raf = requestAnimationFrame(loopFrame);
+  }
+
+  function start() {
+    loop = 0;
+    paused = false;
+    initField();
+    lastStep = performance.now();
+    els.bite.classList.remove("show");
+    updateHud();
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(loopFrame);
+  }
+
+  function pause() {
+    if (!st) return;
+    paused = true;
+    updateHud();
+  }
+  function resume() {
+    if (!st || st.bitten) return;
+    paused = false;
+    lastStep = performance.now();
+    updateHud();
+  }
+  function togglePause() { if (paused) resume(); else pause(); }
+
+  els.restart.addEventListener("click", start);
+  window.addEventListener("keydown", (e) => {
+    if (e.code === "Space" || e.key === " ") { e.preventDefault(); togglePause(); }
+    if (e.key === "r" || e.key === "R") { e.preventDefault(); start(); }
+  });
+  window.addEventListener("resize", () => {
+    layout();
+    drawExt();
+    drawPov();
+    lastStep = performance.now();
+  });
+
+  window.__ouroboros = {
+    get state() { return st; },
+    get pixels() { return st ? st.pixels : 0; },
+    get length() { return st ? st.order.length : 0; },
+    get total() { return st ? st.total : 0; },
+    get coverage() { return st ? st.order.length / st.total : 0; },
+    get heading() { return st ? st.heading : 0; },
+    get primeTurns() { return st ? st.primeTurns : 0; },
+    get bitten() { return st ? st.bitten : false; },
+    get tailBite() { return st ? st.tailBite : false; },
+    get paused() { return paused; },
+    get pace() { return CFG.pace; },
+    get cell() { return cell; },
+    step: doStep,
+    pause: pause,
+    resume: resume,
+    togglePause: togglePause,
+    restart: start,
+    // Verifieringskrok: kör klart loopen utan att vänta i realtid.
+    finishNow: function () {
+      const wasPaused = paused;
+      paused = false;
+      let guard = 0;
+      while (st && !st.bitten && guard < 200000) { doStep(); guard += 1; }
+      paused = true;
+      updateHud();
+      return { pixels: st.pixels, length: st.order.length, coverage: st.order.length / st.total, tailBite: st.tailBite };
+    },
+    logic: L
+  };
+
+  initField();
+  updateHud();
+  lastStep = performance.now();
+  raf = requestAnimationFrame(loopFrame);
+})();
+</script>
+</body>
+</html>

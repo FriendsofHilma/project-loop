@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Draken i primtalsrymden – steg 9</title>
+<style>
+  :root { color-scheme: dark; --ink:#eef2ff; --muted:#9aa7c7; --prime:#ffd479; --cool:#8fa0ff; --drake:#7c6cff; --warp:#ff8c69; }
+  * { box-sizing:border-box; }
+  html,body { height:100%; margin:0; background:#05060f; color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
+  main { position:relative; height:100%; overflow:hidden; }
+  canvas { position:absolute; inset:0; width:100%; height:100%; }
+  .hud { position:absolute; z-index:2; top:16px; left:16px; max-width:390px; padding:1rem 1.15rem;
+         background:rgba(8,10,26,.72); border:1px solid rgba(160,180,255,.25); border-radius:14px;
+         backdrop-filter:blur(6px); box-shadow:0 16px 48px rgba(0,0,0,.4); }
+  h1 { font-size:1.05rem; margin:0 0 .5rem; letter-spacing:.02em; }
+  p { color:var(--muted); line-height:1.5; font-size:.88rem; margin:.3rem 0; }
+  .meta { font-variant-numeric:tabular-nums; font-size:.92rem; color:var(--ink); }
+  .prime { color:var(--prime); font-weight:600; min-height:1.4em; }
+  .turn { color:var(--warp); font-weight:600; min-height:1.4em; }
+  .done { display:none; color:#b7f7c2; }
+  button { margin-top:.7rem; padding:.5rem .9rem; border-radius:999px; border:1px solid #8fa0ff;
+           background:#161b3a; color:var(--ink); cursor:pointer; font:inherit; font-size:.85rem; }
+  button:hover { background:#202754; }
+  body.finished .done { display:block; }
+  .legend { font-size:.8rem; color:#7583a8; }
+</style>
+</head>
+<body>
+<main>
+  <canvas id="space" aria-hidden="true"></canvas>
+  <section class="hud">
+    <h1>Draken i primtalsrymden</h1>
+    <p class="meta">Pixel <span id="pixels">0</span> · block <span id="blocks">3</span> · <span id="parts">7</span> delar per ruta · paus <span id="secs">8</span> s</p>
+    <p class="prime" id="primeFlag" role="status" aria-live="polite">Väntar på första steget …</p>
+    <p class="legend">Varje gång pixelantalet är ett primtal svänger draken vänster. Senaste svängar: <span id="turns" class="turn">—</span></p>
+    <p class="legend">Space pausar och fortsätter. Fliken pausar sig själv när den inte syns.</p>
+    <p>Inga externa resurser. Ingen kontakt skickas. Inget publiceras.</p>
+    <p class="done">Pausen är slut — arbetet är sparat. Återgå till projektloopen.</p>
+    <button id="again" type="button">Starta om pausen</button>
+  </section>
+</main>
+<script src="prime.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  // Rena regler från prime.js (testas av test-prime.js).
+  const L = window.PrimeSpaceLogic;
+  if (!L) throw new Error("prime.js kunde inte laddas");
+  const PARTS = L.PARTS;
+  const BLOCK_CELLS = 13;
+
+  const params = new URLSearchParams(location.search);
+  function readInt(name, fallback, min, max) {
+    const raw = params.get(name);
+    if (raw === null || raw.trim() === "") return fallback;
+    const n = Number(raw);
+    return Number.isFinite(n) ? Math.min(max, Math.max(min, Math.floor(n))) : fallback;
+  }
+  const CFG = {
+    seconds: readInt("seconds", 8, 0, 60),
+    blocks: readInt("blocks", 3, 1, 6),
+    cell: readInt("cell", 46, 18, 140),
+    pace: readInt("pace", 190, 50, 1200),
+    seed: readInt("seed", 0, 0, 2147483647),
+    reduced: window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    selftest: params.get("selftest") === "1"
+  };
+  const BASE_SEED = CFG.seed || 0x9e3779b9;
+
+  const isPrime = L.isPrime;
+
+  const canvas = document.getElementById("space");
+  const ctx = canvas.getContext("2d");
+  const bg = document.createElement("canvas");
+  const bgx = bg.getContext("2d");
+  const els = {
+    pixels: document.getElementById("pixels"),
+    blocks: document.getElementById("blocks"),
+    parts: document.getElementById("parts"),
+    secs: document.getElementById("secs"),
+    prime: document.getElementById("primeFlag"),
+    turns: document.getElementById("turns"),
+    again: document.getElementById("again")
+  };
+  els.blocks.textContent = String(CFG.blocks);
+  els.parts.textContent = String(PARTS);
+  els.secs.textContent = String(CFG.seconds);
+  els.again.textContent = CFG.seconds === 0 ? "Starta pausen" : "Starta om pausen";
+
+  let W = 0, H = 0, cols = 1, rows = 1;
+  let stars = [], seed = 0, raf = null, timer = null, stepTimer = null;
+  let paused = false, remainingMs = 0, runStart = 0;
+  let cx = 0, cy = 0, part = 0, pixels = 0, heading = 0, turns = [], trail = [], flashUntil = 0;
+
+  function rng() { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }
+
+  function drawCube(g, ox, oy, size) {
+    const dx = size * 0.26, dy = -size * 0.17;
+    g.strokeStyle = "rgba(143,160,255,0.30)";
+    g.lineWidth = 1;
+    g.strokeRect(ox, oy, size, size);
+    g.strokeRect(ox + dx, oy + dy, size, size);
+    for (const [ax, ay, bx, by] of [
+      [ox, oy, ox + dx, oy + dy], [ox + size, oy, ox + size + dx, oy + dy],
+      [ox, oy + size, ox + dx, oy + size + dy], [ox + size, oy + size, ox + size + dx, oy + size + dy]
+    ]) { g.beginPath(); g.moveTo(ax, ay); g.lineTo(bx, by); g.stroke(); }
+    // 13 delar längs varje synlig kant: 13×13×13-block i projektion.
+    g.strokeStyle = "rgba(143,160,255,0.13)";
+    for (let i = 1; i < BLOCK_CELLS; i++) {
+      const t = i / BLOCK_CELLS;
+      g.beginPath(); g.moveTo(ox + size * t, oy); g.lineTo(ox + size * t, oy + size); g.stroke();
+      g.beginPath(); g.moveTo(ox, oy + size * t); g.lineTo(ox + size, oy + size * t); g.stroke();
+      g.beginPath(); g.moveTo(ox + dx + size * t, oy + dy); g.lineTo(ox + dx + size * t, oy + dy + size); g.stroke();
+      g.beginPath(); g.moveTo(ox + dx, oy + dy + size * t); g.lineTo(ox + dx + size, oy + dy + size * t); g.stroke();
+    }
+  }
+
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    W = Math.max(320, window.innerWidth);
+    H = Math.max(240, window.innerHeight);
+    for (const c of [canvas, bg]) { c.width = Math.floor(W * dpr); c.height = Math.floor(H * dpr); }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    bgx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cols = Math.ceil(W / CFG.cell);
+    rows = Math.ceil(H / CFG.cell);
+
+    seed = BASE_SEED;
+    stars = Array.from({ length: Math.min(420, Math.floor(W * H / 3600)) }, (_, i) => ({
+      x: rng() * W, y: rng() * H, r: rng() * 1.5 + .3,
+      a: rng() * .65 + .25, prime: isPrime(i + 1), tw: rng() * 6.28
+    }));
+    bgx.clearRect(0, 0, W, H);
+    for (const s of stars) {
+      bgx.globalAlpha = s.a;
+      bgx.fillStyle = s.prime ? "#ffd479" : "#dce6ff";
+      bgx.beginPath(); bgx.arc(s.x, s.y, s.r, 0, Math.PI * 2); bgx.fill();
+    }
+    bgx.globalAlpha = 1;
+    const size = Math.min(W, H) * 0.34;
+    for (let i = 0; i < CFG.blocks; i++) {
+      drawCube(bgx, W * 0.06 + i * W * 0.27, H * 0.42 - i * H * 0.07, size * (1 - i * 0.08));
+    }
+    // En storleksändring nollställer canvasens bitmap. Rita om direkt när ingen
+    // animationsloop är aktiv, så att en pausad eller fryst bild inte blir tom.
+    if (typeof render === "function" && raf === null) render();
+  }
+
+  function cellCenter(x, y) {
+    return { x: (x + 0.5) * CFG.cell, y: (y + 0.5) * CFG.cell };
+  }
+  const TAU = Math.PI * 2;
+  const FAN = Array.from({ length: PARTS }, (_, p) => ({
+    a0: -Math.PI / 2 + p * (TAU / PARTS),
+    a1: -Math.PI / 2 + (p + 1) * (TAU / PARTS)
+  }));
+  function partPosition(x, y, p) {
+    const c = cellCenter(x, y);
+    const a = (p + 0.5) * (TAU / PARTS) - Math.PI / 2;
+    const r = CFG.cell * 0.30;
+    return { x: c.x + Math.cos(a) * r, y: c.y + Math.sin(a) * r };
+  }
+
+  function step() {
+    pixels += 1;
+    const nextHeading = L.turnHeading(heading, pixels);
+    const turned = nextHeading !== heading;
+    heading = nextHeading;
+    if (turned) { turns.push(pixels); flashUntil = performance.now() + 700; }
+    part = L.nextPart(part);
+    if (part === 0) {
+      const nextCell = L.advanceCell(cx, cy, cols, rows, heading);
+      cx = nextCell.x;
+      cy = nextCell.y;
+    }
+    trail.push(partPosition(cx, cy, part));
+    if (trail.length > 70) trail.shift();
+
+    els.pixels.textContent = String(pixels);
+    els.turns.textContent = turns.length ? turns.slice(-8).join(", ") : "—";
+    els.prime.textContent = turned
+      ? "Pixel " + pixels + " är primtal → SVÄNG VÄNSTER"
+      : "Pixel " + pixels + (isPrime(pixels + 1) ? " · nästa blir en vänstersväng" : "");
+    if (CFG.reduced) render();
+  }
+
+  function drawFan(x, y, active) {
+    const c = cellCenter(x, y);
+    const now = performance.now();
+    for (let p = 0; p < PARTS; p++) {
+      const a0 = FAN[p].a0;
+      const a1 = FAN[p].a1;
+      ctx.beginPath();
+      ctx.moveTo(c.x, c.y);
+      ctx.arc(c.x, c.y, CFG.cell * 0.44, a0, a1);
+      ctx.closePath();
+      const activeNow = p === active;
+      const activeGlow = activeNow && now < flashUntil;
+      ctx.fillStyle = activeGlow ? "rgba(255,140,105,.70)"
+        : activeNow ? "rgba(255,212,121,.62)"
+        : "rgba(143,160,255,.06)";
+      ctx.fill();
+      ctx.strokeStyle = activeGlow ? "rgba(255,140,105,.9)"
+        : activeNow ? "rgba(255,212,121,.8)"
+        : "rgba(143,160,255,.14)";
+      ctx.lineWidth = activeNow ? 1.6 : 1;
+      ctx.stroke();
+    }
+  }
+
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.drawImage(bg, 0, 0, W, H);
+
+    for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+      const x = (cx + dx + cols) % cols, y = (cy + dy + rows) % rows;
+      drawFan(x, y, dx === 0 && dy === 0 ? part : -1);
+    }
+
+    if (trail.length > 1) {
+      ctx.beginPath();
+      ctx.moveTo(trail[0].x, trail[0].y);
+      for (let i = 1; i < trail.length; i++) {
+        ctx.lineTo(trail[i].x, trail[i].y);
+      }
+      ctx.strokeStyle = "rgba(255,212,121,.35)";
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.stroke();
+    }
+
+    const p = partPosition(cx, cy, part);
+    const now = performance.now();
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(-heading * Math.PI / 2);
+    ctx.font = Math.max(28, Math.floor(CFG.cell * 0.72)) + "px system-ui, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.shadowColor = now < flashUntil ? "#ff8c69" : "#7c6cff";
+    ctx.shadowBlur = now < flashUntil ? 28 : 20;
+    ctx.fillText("🐉", 0, 0);
+    ctx.restore();
+  }
+
+  function frame() {
+    render();
+    raf = requestAnimationFrame(frame);
+  }
+
+  function finish() {
+    document.body.classList.add("finished");
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    if (timer) { clearTimeout(timer); timer = null; }
+    if (stepTimer) { clearInterval(stepTimer); stepTimer = null; }
+    paused = false;
+    // Frys sista bilden så att pausen slutar på ett helt, stilla rum i stället
+    // för en tom duk när animationsloopen stängs av.
+    flashUntil = 0;
+    render();
+  }
+
+  function pause() {
+    if (paused || document.body.classList.contains("finished")) return;
+    paused = true;
+    if (stepTimer) { clearInterval(stepTimer); stepTimer = null; }
+    if (timer) {
+      remainingMs = Math.max(0, runStart + CFG.seconds * 1000 - Date.now());
+      clearTimeout(timer);
+      timer = null;
+    }
+    els.prime.textContent = "Pausad — tryck Space eller knappen för att fortsätta.";
+    els.again.textContent = "Fortsätt pausen";
+  }
+
+  function resume() {
+    if (!paused) return;
+    paused = false;
+    els.again.textContent = "Starta om pausen";
+    stepTimer = window.setInterval(step, CFG.pace);
+    if (CFG.seconds > 0) {
+      if (remainingMs <= 0) remainingMs = CFG.seconds * 1000;
+      runStart = Date.now() - (CFG.seconds * 1000 - remainingMs);
+      timer = window.setTimeout(finish, remainingMs);
+    }
+  }
+
+  function togglePause() {
+    if (paused) resume(); else pause();
+  }
+
+  function start() {
+    document.body.classList.remove("finished");
+    if (raf) cancelAnimationFrame(raf);
+    if (timer) clearTimeout(timer);
+    if (stepTimer) clearInterval(stepTimer);
+    cx = Math.floor(cols / 2); cy = Math.floor(rows / 2);
+    part = 0; pixels = 0; heading = 0; turns = []; trail = []; flashUntil = 0;
+    paused = false; remainingMs = 0;
+    resize();
+    els.pixels.textContent = "0";
+    els.turns.textContent = "—";
+    els.prime.textContent = "Flygstart — första vänstersvängen vid pixel 2.";
+    els.again.textContent = CFG.seconds === 0 ? "Starta pausen" : "Starta om pausen";
+    runStart = Date.now();
+    stepTimer = window.setInterval(step, CFG.pace);
+    if (CFG.seconds > 0) timer = window.setTimeout(finish, CFG.seconds * 1000);
+    if (CFG.reduced) {
+      render();
+    } else {
+      raf = requestAnimationFrame(frame);
+    }
+  }
+
+  function selftest() {
+    const sim = L.simulate(41, 13, 13);
+    const ok = sim.heading === 1 &&
+      sim.turns.length === L.EXPECTED_TURNS.length &&
+      sim.turns.every((v, i) => v === L.EXPECTED_TURNS[i]);
+    document.body.dataset.selftest = ok ? "pass" : "fail";
+    els.prime.textContent = ok
+      ? "Självtest: PASS — 13 vänstersvängar, heading 1, sju delar per ruta."
+      : "Självtest: FAIL — reglerna stämmer inte.";
+    return { ok, heading: sim.heading, turns: sim.turns };
+  }
+
+  els.again.addEventListener("click", () => { if (paused) resume(); else start(); });
+  window.addEventListener("resize", resize);
+  window.addEventListener("keydown", (e) => {
+    if (e.code === "Space" || e.key === " ") {
+      e.preventDefault();
+      togglePause();
+    }
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) pause();
+  });
+  window.__primeSpace = {
+    isPrime: isPrime,
+    get pixels() { return pixels; },
+    get heading() { return heading; },
+    get turns() { return turns.slice(); },
+    get parts() { return PARTS; },
+    get blocks() { return CFG.blocks; },
+    get seconds() { return CFG.seconds; },
+    get paused() { return paused; },
+    get seed() { return BASE_SEED; },
+    simulate: L.simulate,
+    selftest: selftest,
+    pause: pause,
+    resume: resume,
+    togglePause: togglePause,
+    freeze: finish,
+    // Verifieringskrok för att köra flera korta steg-9-pauser utan att ändra defaultregeln.
+    restartWith: function (s) {
+      if (Number.isFinite(s) && s >= 0 && s <= 60) {
+        CFG.seconds = s;
+        els.secs.textContent = String(s);
+        els.again.textContent = s === 0 ? "Starta pausen" : "Starta om pausen";
+      }
+      start();
+      return { seconds: CFG.seconds, pixels: pixels };
+    }
+  };
+  resize();
+  if (CFG.selftest) { selftest(); return; }
+  if (CFG.seconds > 0) start(); else {
+    els.prime.textContent = "Pausen startar när du trycker på knappen.";
+    render();
+    if (!CFG.reduced) raf = requestAnimationFrame(frame);
+  }
+})();
+</script>
+</body>
+</html>
