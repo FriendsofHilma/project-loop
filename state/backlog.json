@@ -24,7 +24,7 @@
       "title": "Initialize local Git repository for project-loop after approval",
       "status": "done",
       "priority": "medium",
-      "evidence": "D-025; local commit (local hash scrubbed) in C:\\Users\\timsa\\AppData\\Local\\Temp\\opencode\\project-loop-gh-local; no push, merge or publication",
+      "evidence": "D-025; local commit 3563385d8c7c81f4b761644d0d6e772ca84d315e in C:\\Users\\timsa\\AppData\\Local\\Temp\\opencode\\project-loop-gh-local; no push, merge or publication",
       "completed": "2026-11-26"
     },
     {
@@ -166,8 +166,8 @@
       "id": "B-019",
       "step": 9,
       "title": "Decide whether to push the prepared local GitHub revision",
-      "status": "needs_human_decision",
-      "evidence": "D-025; no push or merge performed",
+      "status": "done",
+      "evidence": "D-045; explicit human decision 2026-11-27; pushed ca2779b to origin/main; no merge performed",
       "priority": "high"
     },
     {

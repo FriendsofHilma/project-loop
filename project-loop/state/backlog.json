@@ -166,8 +166,8 @@
       "id": "B-019",
       "step": 9,
       "title": "Decide whether to push the prepared local GitHub revision",
-      "status": "needs_human_decision",
-      "evidence": "D-025; no push or merge performed",
+      "status": "done",
+      "evidence": "D-045; explicit human decision 2026-11-27; pushed ca2779b to origin/main; no merge performed",
       "priority": "high"
     },
     {
