@@ -1,0 +1,315 @@
+{
+  "schema_version": "1.0",
+  "generated": "2026-11-25",
+  "workflow": "project-loop",
+  "step": 3,
+  "step_name": "projektformulering_och_prioritering",
+  "status": "priority_order_approved_not_implemented",
+  "language": "sv",
+  "personal_data": false,
+  "external_actions": [],
+  "approval": {
+    "date": "2026-11-25",
+    "decision": "D-012",
+    "approved_by": "user",
+    "changes_to_ranking": [],
+    "project_order": ["P-01", "P-02", "P-04", "P-03", "P-07", "P-05", "P-06"],
+    "step_4_activation": false
+  },
+  "activated_steps": [1, 2, 3],
+  "prepared_not_activated_steps": [4, 5, 6, 7, 8, 9],
+  "decision_refs": ["D-001", "D-002", "D-006", "D-008", "D-009", "D-010", "D-011", "D-012"],
+  "tags": {
+    "E": "verifierat i lokal fil eller officiell källa",
+    "I": "projektintern tolkning",
+    "ARG": "rekommendation",
+    "ANTAGANDE": "koppling som kräver mänskligt beslut",
+    "Q": "osäkert eller ej specificerat"
+  },
+  "scoring": {
+    "scale": "1-5",
+    "weights": {
+      "existing_underlay": 0.2,
+      "stakeholder_benefit": 0.2,
+      "reusability": 0.2,
+      "time_sensitivity": 0.15,
+      "resource_fit": 0.15,
+      "inverted_gate_risk": 0.1
+    },
+    "tie_break": "masterpromptens särskilda uppdrag, antal intressenter, lägst extern gate-risk",
+    "note": "Poängen är en prioriteringshjälp, inte ett behörighets- eller juridiskt beslut."
+  },
+  "source_files": [
+    "project-loop/MASTERPROMPT.md",
+    "project-loop/WORKFLOW.md",
+    "project-loop/DECISIONS.md",
+    "project-loop/reports/INTERESSENTREGISTER_2026-11-25.md",
+    "project-loop/steps/02-network/FINANSIERINGSKARTA.md",
+    "project-loop/steps/02-network/INTEROPERABILITET_KLIRRHACK.md",
+    "project-loop/steps/02-network/NOSAD_IMPORT.md",
+    "project-loop/steps/02-network/INTERNATIONELL_INTRO.md",
+    "project-loop/research/HILMA_PAPERS_SOK_ASSISTENT_SPEC.md",
+    "project-loop/research/GITHUB_REPO_FORSLAG.md",
+    "project-loop/research/ATERANVANDBARA_KOMPONENTER.md",
+    "AGENTS.md",
+    "research-project/PROTOCOL.md",
+    "notes-assistant/README.md",
+    "narration/README.md"
+  ],
+  "projects": [
+    {
+      "id": "P-01",
+      "rank": 1,
+      "title": "Hilma Papers sök- och assistentmodul",
+      "status": "FÖRSLAG",
+      "problem_need": "Citeringsbar sökning i 384 dokument och 7210 PDF-sidor; OCR/native-varianter och privata översättningar får inte bli obestyrkta citat.",
+      "target_groups": ["ORG-03", "ORG-04", "RES-01", "RES-02"],
+      "target_group_note": "RES-04 nämns endast som organisationsnivåresurs och är user_reported_unverified.",
+      "expected_results": [
+        "Sex separata datalager med immutable source-regel",
+        "CLI och API-förslag med document_id, PDF-sida, source_url, text_sha256 och evidens-tagg",
+        "Append-only korrigeringsdiff; 460/480 bevaras som variant",
+        "Valfritt lokalt LSA-lager där vektorträffar är kandidater",
+        "Deterministiska tester för hash, immutable write och citatogiltighet"
+      ],
+      "stakeholder_ids": ["ORG-03", "ORG-04", "RES-01", "RES-02", "ORG-01", "ORG-02"],
+      "funding_ids": ["F02", "F05", "F06", "F07", "F08"],
+      "funding_note": "ANTAGANDE och ej verifierat; ingen ansökan.",
+      "dependencies": [
+        "research-project/tools/hilma_archive.py",
+        "research-project/tools/process_archive.py",
+        "research-project/tools/search_archive.py",
+        "research-project/tools/verify_archive.py",
+        "research-project/indexes/hilma-papers/",
+        "research-project/PROTOCOL.md",
+        "notes-assistant/notes_model.py",
+        "research-project/evidence/"
+      ],
+      "resources": ["Python", "PyMuPDF", "Tesseract swe+eng", "SQLite FTS5", "NumPy/SciPy (valfritt)"],
+      "gates": ["rättighetsbeslut", "mänsklig granskning av korrigeringar", "RES-04 specificerad före research-framing"],
+      "scores": {
+        "existing_underlay": 5,
+        "stakeholder_benefit": 5,
+        "reusability": 5,
+        "time_sensitivity": 4,
+        "resource_fit": 4,
+        "inverted_gate_risk": 3,
+        "weighted_total": 4.5
+      },
+      "evidence_tags": ["E", "I", "FÖRSLAG", "ANTAGANDE", "Q"]
+    },
+    {
+      "id": "P-02",
+      "rank": 2,
+      "title": "Klirrhack 2027 interoperabilitetspaket",
+      "status": "FÖRSLAG",
+      "problem_need": "Tidskänsligt underlag om DIGG, Ena, REST API-profil 2.0.0, Sweden Connect, EU 2024/903 och Rådig; källfrågor om forge och bedömningskriterier är öppna.",
+      "target_groups": ["ORG-01", "ORG-02", "PROJ-01", "PROJ-02", "internationella deltagare"],
+      "expected_results": [
+        "Uppdaterad kunskapspaketsversion med URL och kontroldatum",
+        "En-sidig internationell intro med fem punkter att kunna",
+        "Rättighetschecklista för federerad inloggning och kontinuitet",
+        "Syntetiska fixtures utan personuppgifter",
+        "Öppen frågelista utan gissningar"
+      ],
+      "stakeholder_ids": ["ORG-01", "ORG-02", "PROJ-01", "PROJ-02", "ORG-05", "ORG-06", "TEK-01", "TEK-04"],
+      "funding_ids": ["F01", "F03", "F04"],
+      "funding_note": "Indirekt och ej ansökningsbart; F01 kräver svensk industriaktör, F03 kräver företag.",
+      "dependencies": [
+        "project-loop/steps/02-network/INTEROPERABILITET_KLIRRHACK.md",
+        "project-loop/steps/02-network/INTERNATIONELL_INTRO.md",
+        "project-loop/steps/02-network/NOSAD_IMPORT.md",
+        "research-project/reports/public-sources/RADIG_KLIRR_HACK_DFRI_ANALYSIS_2026-11-24.md"
+      ],
+      "resources": ["officiella Digg/EU/regeringskällor", "lokal analys", "ingen extern anmälan krävs"],
+      "gates": ["källosäkerhet", "ingen contactgiven", "personas förblir fiktiva"],
+      "scores": {
+        "existing_underlay": 5,
+        "stakeholder_benefit": 4,
+        "reusability": 3,
+        "time_sensitivity": 5,
+        "resource_fit": 5,
+        "inverted_gate_risk": 4,
+        "weighted_total": 4.3
+      },
+      "evidence_tags": ["E-secondary", "Q", "I", "ARG", "FÖRSLAG"]
+    },
+    {
+      "id": "P-04",
+      "rank": 3,
+      "title": "Gemensamt provenans- och evidenskontrakt",
+      "status": "FÖRSLAG",
+      "problem_need": "Samma regler för original, OCR, korrigering, tolkning och metadata saknas mellan delprojekt; sökträffar riskerar att bli forskningsresultat utan märkning.",
+      "target_groups": ["ORG-01", "ORG-02", "ORG-03", "ORG-04", "RES-01"],
+      "expected_results": [
+        "Versionsmärkt kontrakt med locator, hash, source_method, evidence_tag, transform_chain, review_status",
+        "Regeln hash bevisar bytes, inte sanning, dokumenterad och testad",
+        "Syntetiska CC0-fixtures utan riktiga ärendedata",
+        "Gemensam licensmatris",
+        "Lokal validator utan nätverk"
+      ],
+      "stakeholder_ids": ["ORG-01", "ORG-02", "ORG-03", "ORG-04", "RES-01", "TEK-04"],
+      "funding_ids": ["F05", "F08", "F12", "F02"],
+      "funding_note": "Infrastruktur-/nätverksmönster; ingen ansökan.",
+      "dependencies": [
+        "research-project/PROTOCOL.md",
+        "research-project/evidence/",
+        "novel/tools/verify_quotes.py",
+        "project-loop/research/GITHUB_REPO_FORSLAG.md",
+        "project-loop/research/ATERANVANDBARA_KOMPONENTER.md"
+      ],
+      "resources": ["Python-standardbiblioteket"],
+      "gates": ["licensval per organisation", "forgeval", "mänskligt beslut"],
+      "scores": {
+        "existing_underlay": 4,
+        "stakeholder_benefit": 5,
+        "reusability": 5,
+        "time_sensitivity": 2,
+        "resource_fit": 4,
+        "inverted_gate_risk": 4,
+        "weighted_total": 4.1
+      },
+      "evidence_tags": ["E", "I", "ARG", "FÖRSLAG"]
+    },
+    {
+      "id": "P-03",
+      "rank": 4,
+      "title": "Öppen Cosmic Block-referensimplementation",
+      "status": "FÖRSLAG",
+      "problem_need": "Verifierad TypeScript- och C11-kod saknas i ett samlat publiceringspaket som visar matematik/rendering-separering och diskverifierbar lagring.",
+      "target_groups": ["ORG-01", "ORG-02", "ORG-03"],
+      "expected_results": [
+        "Dokumentationspaket med arkitektur, API, datamodell, install och release-checklista",
+        "Verifieringsrapport för tsc, npm test, make test och byte 5209",
+        "Levels 7-9 orörda; Level 8 under_review",
+        "Inga visuella påståenden om The Key utan bildkontroll"
+      ],
+      "stakeholder_ids": ["ORG-01", "ORG-02", "ORG-03"],
+      "funding_ids": ["F01", "F03", "F08"],
+      "funding_note": "Endast indirekt och med ny partnerkonstellation.",
+      "dependencies": ["src/", "src/structures/collection/", "src/validation/", "src/visualization/", "cosmic-block-c/", "refinement/", "tools/"],
+      "resources": ["Node/TypeScript", "Three.js", "C11", "make", "w64devkit"],
+      "gates": ["licensbeslut", "externt repo kräver godkännande", "Rocq ej maskinkontrollerad"],
+      "scores": {
+        "existing_underlay": 5,
+        "stakeholder_benefit": 4,
+        "reusability": 4,
+        "time_sensitivity": 2,
+        "resource_fit": 5,
+        "inverted_gate_risk": 4,
+        "weighted_total": 4.05
+      },
+      "evidence_tags": ["E", "I", "FÖRSLAG"]
+    },
+    {
+      "id": "P-07",
+      "rank": 5,
+      "title": "Kulturarvskonsortium: ansökningsberedskap",
+      "status": "FÖRSLAG",
+      "problem_need": "F02/F06/F07 kräver behörig svensk forskare, VR-godkänd medelsförvaltare, anställning minst 20 procent och konsortium; RES-04 är användarlämnad och overifierad.",
+      "target_groups": ["RES-01", "RES-04", "ORG-03"],
+      "expected_results": [
+        "Forskningsfråga om citeringsbarhet och provenans",
+        "Partner- och rollmatris med tomma fält",
+        "Krysslista mot F02, F06 och F07",
+        "Ingen kontakt, ansökan eller personuppgift"
+      ],
+      "stakeholder_ids": ["ORG-03", "ORG-04", "RES-01", "RES-04"],
+      "funding_ids": ["F02", "F06", "F07"],
+      "funding_note": "Bevakning endast; F02-skiss 2027-01-11/18.",
+      "dependencies": ["project-loop/steps/02-network/FINANSIERINGSKARTA.md", "research-project/COORDINATOR_STATUS.md", "RES-04"],
+      "resources": ["behörighetsuppgifter saknas", "konsortium saknas", "samtycke saknas"],
+      "gates": ["identitet/institution", "VR-godkänd medelsförvaltare", "examens- och anställningsvillkor", "samtycke", "konsortium"],
+      "scores": {
+        "existing_underlay": 3,
+        "stakeholder_benefit": 4,
+        "reusability": 4,
+        "time_sensitivity": 5,
+        "resource_fit": 2,
+        "inverted_gate_risk": 1,
+        "weighted_total": 3.35
+      },
+      "evidence_tags": ["E", "I", "ANTAGANDE", "Q", "FÖRSLAG"]
+    },
+    {
+      "id": "P-05",
+      "rank": 6,
+      "title": "Tillgängliggörande genom offline-narration",
+      "status": "FÖRSLAG",
+      "problem_need": "Offline-narration finns, men MT-citat, rättigheter och röstval är inte klara; ingen röstkloning får påstås.",
+      "target_groups": ["ORG-02", "ORG-03", "ORG-04"],
+      "expected_results": [
+        "Endast korta, granskade och källmärkta utdrag narreras",
+        "Metadata med kanonisk hash, review_status och röstprofil",
+        "Utelämnat provenansintervall registreras",
+        "Lokal spelare oförändrad"
+      ],
+      "stakeholder_ids": ["ORG-02", "ORG-03", "ORG-04"],
+      "funding_ids": ["F02", "F04", "F07"],
+      "funding_note": "Kulturarv/civilsamhälle; ingen ansökan.",
+      "dependencies": ["narration/", "P-01 evidensregler"],
+      "resources": ["Piper 1.8.0", "en_US-libritts-high cirka 137 MB", "Windows SAPI-fallback"],
+      "gates": ["rättighetsbeslut", "röstval", "MT-citat kontrollerade mot svensk källa"],
+      "scores": {
+        "existing_underlay": 4,
+        "stakeholder_benefit": 4,
+        "reusability": 3,
+        "time_sensitivity": 2,
+        "resource_fit": 4,
+        "inverted_gate_risk": 2,
+        "weighted_total": 3.3
+      },
+      "evidence_tags": ["E", "I", "Q", "FÖRSLAG"]
+    },
+    {
+      "id": "P-06",
+      "rank": 7,
+      "title": "NOSAD-importpipeline",
+      "status": "FÖRSLAG",
+      "problem_need": "Publicerad NOSAD-sida är läst men inte lokalt bevarad; abonnemang, e-poståtkomst och skriftligt godkännande saknas.",
+      "target_groups": ["projektloopen", "ORG-01", "ORG-02"],
+      "expected_results": [
+        "raw/ med exakt original och SHA-256-manifest",
+        "extracted/, articles/, links/, annotations/, index/ som separata lager",
+        "Provenance-tagg NOSAD/ars-man/web|email",
+        "Inga personnamn som standard",
+        "auto-status kan aldrig bli human_reviewed automatiskt"
+      ],
+      "stakeholder_ids": ["ORG-01", "ORG-02", "ORG-05", "ORG-06", "ORG-07", "ORG-08"],
+      "funding_ids": ["F04"],
+      "funding_note": "Indirekt; ingen utlysning är kopplad till importen.",
+      "dependencies": ["NOSAD-abonnemang eller e-postexport eller godkännande av publika webbsidor", "mänsklig granskare"],
+      "resources": ["Python-standardbiblioteket"],
+      "gates": ["källåtkomst", "rättigheter för heltext", "personuppgiftspolicy", "granskare"],
+      "scores": {
+        "existing_underlay": 3,
+        "stakeholder_benefit": 4,
+        "reusability": 4,
+        "time_sensitivity": 3,
+        "resource_fit": 2,
+        "inverted_gate_risk": 2,
+        "weighted_total": 3.15
+      },
+      "evidence_tags": ["E", "I", "ARG", "Q", "FÖRSLAG"]
+    }
+  ],
+  "dependency_map": [
+    {"from": "P-01", "to": ["P-04", "P-05", "P-07", "P-06"], "relation": "ger_underlag_till"},
+    {"from": "P-02", "to": ["P-04", "P-06"], "relation": "ger_underlag_till"},
+    {"from": "P-04", "to": ["P-01", "P-03", "P-05"], "relation": "ger_underlag_till"},
+    {"from": "P-01", "to": ["rättighetsbeslut", "granskningskapacitet"], "relation": "blockeras_av"},
+    {"from": "P-07", "to": ["behörighet", "medelsförvaltare", "konsortium", "samtycke"], "relation": "blockeras_av"},
+    {"from": "P-06", "to": ["källåtkomst", "granskare"], "relation": "blockeras_av"}
+  ],
+  "open_questions": [
+    "~~Godkänns rangordningen, eller flyttas P-02 först på grund av Klirrhack-datumet?~~ **Löst 2026-11-25** genom D-012: rangordningen godkändes utan ändring.",
+    "Vilka utdrag, OCR-filer och maskinöversättningar får lagras, visas eller publiceras?",
+    "Vilka institutioner avses med RES-04 och vilken VR-godkänd medelsförvaltare gäller?",
+    "MIT eller EUPL för kod, CC BY för text, och vilken forge är kanonisk?",
+    "Finns NOSAD-abonnemang/e-postexport eller godkännande för enbart publika webbsidor?",
+    "Ska något fiktivt rollunderlag användas, och i så fall i vilket separat beslut?"
+  ],
+  "human_decisions_required": true,
+  "next_recommended_action": "decide_whether_to_activate_step_4_and_which_approved_projects_proceed",
+  "step_4_activated": false
+}

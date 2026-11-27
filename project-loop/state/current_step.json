@@ -1,0 +1,185 @@
+{
+  "workflow": "project-loop",
+  "version": "2.1",
+  "current_step": 9,
+  "active_steps": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "prepared_steps": [],
+  "step_4_definition": "aesthetic_integrity_and_graphic_profile",
+  "step_4_activated": true,
+  "step_4_status": "completed",
+  "graphic_profile": {
+    "version": "0.1",
+    "status": "approved",
+    "date": "2026-11-25",
+    "decision": "D-017"
+  },
+  "step_5_definition": "narrative_integration_all_levels",
+  "step_5_definition_status": "defined_2026-11-25",
+  "step_5_prepared": true,
+  "step_5_activated": true,
+  "step_5_activation_date": "2026-11-25",
+  "step_5_activation_decision": "D-020",
+  "step_5_first_pass": {
+    "project": "P-07",
+    "track": "F02",
+    "mode": "financial_narrative_N5",
+    "external_submission": false,
+    "status": "local_dossier_delivered"
+  },
+  "step_5_status": "active_local_narrative_integration",
+  "step_6_definition": "state_integration_all_partner_relations",
+  "step_6_definition_status": "defined_2026-11-25",
+  "step_6_prepared": true,
+  "step_6_activated": true,
+  "step_6_activation_date": "2026-11-25",
+  "step_6_activation_decision": "D-022",
+  "step_6_status": "activated_local_arvsfonden_relation_delivered",
+  "step_6_first_pass": {
+    "partner": "Allmänna arvsfonden — publicerade villkor S-01–S-12",
+    "request": "Frågor i ansökan om projektstöd; krav för projektstöd; generella villkor",
+    "mode": "state_integration_S1_S2",
+    "external_contact": false,
+    "status": "local_comparison_delivered"
+  },
+  "status": "thirty_five_cycles_completed_website_delivered_awaiting_human_review",
+  "last_completed_task": "cycle_35_final_verification_of_website_and_state",
+  "next_action": "human_visual_review_of_website_B022_and_prime_space_B020_GitHub_push_decision_and_verify_A07_A08",
+  "requires_human_approval": true,
+  "blockers": [],
+  "github_publication": {
+    "status": "original_published_revision_prepared_local_commit_amended_not_pushed",
+    "repo": "FriendsofHilma/project-loop",
+    "url": "https://github.com/FriendsofHilma/project-loop",
+    "license": "CC-BY-4.0",
+    "verified_byte_identical": true,
+    "decision": "D-009",
+    "date": "2026-11-25",
+    "local_revision_decision": "D-025",
+    "push_approval": false,
+    "local_commit": "0ac54e36f4e6ca7dc409853bb1e2b5276296398b",
+    "local_commit_subject": "Integrate 35 cycles, ouroboros dragon and local website",
+    "local_clone_path": "C:\\Users\\timsa\\AppData\\Local\\Temp\\opencode\\project-loop-gh-local",
+    "push_performed": false,
+    "merge_performed": false,
+    "local_commit_short": "0ac54e3"
+  },
+  "updated": "2026-11-27",
+  "cycle": 35,
+  "step_7_definition": "interpersonal_integration",
+  "step_7_activated": true,
+  "step_7_status": "local_relationship_map_delivered",
+  "step_8_definition": "strategic_coordination",
+  "step_8_activated": true,
+  "step_8_status": "local_action_plan_delivered",
+  "step_9_definition": "synthesis_consolidation_recovery",
+  "step_9_activated": true,
+  "step_9_status": "thirty_five_cycles_completed_two_screensavers_and_local_website",
+  "arvsfonden_track": {
+    "status": "resumed_local_draft_not_submitted",
+    "decision": "D-023",
+    "project": "P-01 + P-04",
+    "target_group": "Ungdomar 12–25 år",
+    "conditions_recommendation": "7.0 A [FÖRSLAG][?]; not attested",
+    "external_submission": false
+  },
+  "assistant": {
+    "agent": "project-loop-assistant",
+    "decision": "D-027",
+    "checkpoints": 8,
+    "automatic_chaining": false
+  },
+  "riemann_workstream": {
+    "decision": "D-028",
+    "status": "plan_and_first_figure",
+    "datasets_downloaded": false,
+    "proof_claim": false
+  },
+  "prime_space": {
+    "decision": "D-031/D-032",
+    "status": "local_screensaver_tested_frozen_frame_64_checks",
+    "parts_per_cell": 7,
+    "blocks_default": 3,
+    "left_turn_on_prime_pixels": true,
+    "verification": "pixels=42; turns=2,3,5,7,11,13,17,19,23,29,31,37,41; 0 console errors",
+    "human_visual_review": "B-020",
+    "visual_polish": {
+      "decision": "D-033",
+      "status": "done",
+      "improvements": [
+        "dragons shadow glow",
+        "warp-colored active fan sector",
+        "smoother trail with lineCap round",
+        "turns shown in warp color"
+      ]
+    },
+    "code_batch_25_32": {
+      "decisions": [
+        "D-035",
+        "D-036",
+        "D-037",
+        "D-038",
+        "D-039",
+        "D-040"
+      ],
+      "module": "steps/09-renewal/dragon-screensaver/prime.js",
+      "test": "steps/09-renewal/dragon-screensaver/test-prime.js",
+      "checks": 64,
+      "corrections": [
+        "left turn is (heading + 1) mod 4",
+        "old +3 turned right"
+      ],
+      "features": [
+        "?seed=N",
+        "frozen final frame",
+        "Space pause/resume",
+        "?selftest=1",
+        "aria-live status",
+        "prefers-reduced-motion",
+        "precomputed fan angles"
+      ]
+    }
+  },
+  "human_visual_review": {
+    "decision": "D-034",
+    "status": "open_as_B-020",
+    "task": "Visually review a screenshot of the prime-space flight and confirm colours and seven-part fan"
+  },
+  "ouroboros": {
+    "decision": "D-041",
+    "status": "local_screensaver_tested_100_percent_coverage_tail_bite",
+    "route": "Hamilton_cycle",
+    "prime_role": "visual_left_pulse_not_route",
+    "views": [
+      "external",
+      "dragon_perspective"
+    ],
+    "module": "steps/09-renewal/dragon-perspective/dragon.js",
+    "test": "steps/09-renewal/dragon-perspective/test-dragon.js",
+    "checks": 25,
+    "verification": "1550 cells, coverage=1, tailBite=true, 244 prime pulses, 0 console errors"
+  },
+  "website": {
+    "decision": "D-043/D-044",
+    "status": "local_draft_three_cycles_verified",
+    "path": "../../hemsida",
+    "steps_as_images": 9,
+    "component_groups": 7,
+    "component_links": 48,
+    "figures": 8,
+    "art": "10 deterministic local SVGs; external image service returned Invalid credential (D-042)",
+    "test": "hemsida/test-site.js",
+    "checks": 139,
+    "browser": "9 images loaded, 0 console errors, local reader verified",
+    "human_visual_review": "B-022"
+  }
+}

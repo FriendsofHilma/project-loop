@@ -1,0 +1,10 @@
+post,belopp,enhet,kalla,antagande,status
+Personaltid,"[BELOPP]","SEK","[ANTAL] timmar x [SATTS]","[ANTAGANDE]","[FÖRSLAG][?]"
+Infrastruktur,"[BELOPP]","SEK","[LEVERANTÖR]","[ANTAGANDE]","[FÖRSLAG][?]"
+Resor_moten,"[BELOPP]","SEK","[ANTAL] resor","[ANTAGANDE]","[FÖRSLAG][?]"
+Ovrigt,"[BELOPP]","SEK","[SPECIFIKATION]","[ANTAGANDE]","[FÖRSLAG][?]"
+F02_minsta_svensk_partner,"1200000","SEK","steps/02-network/FINANSIERINGSKARTA.md:66","[E]","ram, ej budget"
+F02_hogst_tva_svenska,"3500000","SEK","steps/02-network/FINANSIERINGSKARTA.md:66","[E]","ram, ej budget"
+F02_svensk_koordinator,"5000000","SEK","steps/02-network/FINANSIERINGSKARTA.md:66","[E]","ram, ej budget"
+Kontakt_till_finansiar,"NEJ","-","DECISIONS.md D-008","[E]","blockad"
+Personuppgifter,"NEJ","-","DECISIONS.md D-006/D-008","[E]","blockad"

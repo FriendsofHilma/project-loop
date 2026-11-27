@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Läser lokala filer — Cosmic Block</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark" aria-hidden="true"></span> Cosmic Block</div>
+  <nav class="topnav" aria-label="Huvudmeny" data-i18n-aria="navMain">
+    <a href="index.html" data-i18n="navComponents">Komponenter</a>
+    <a href="index.html#steps" data-i18n="navSteps">De nio stegen</a>
+    <a href="visa.html?f=../avhandling/README.md" data-i18n="navDissertation">Avhandling</a>
+    <a class="lang-link" id="lang-toggle" href="?lang=en" aria-label="Byt språk" title="Byt språk">English</a>
+  </nav>
+</header>
+
+<article class="reader">
+  <div class="reader-head">
+    <a class="back-link" href="index.html" data-i18n="back">← Tillbaka till hemsidan</a>
+    <a class="back-link" id="raw" href="#" data-i18n="raw">Öppna råfilen</a>
+  </div>
+  <h1 id="title" data-i18n="loading">Läser fil …</h1>
+  <div class="path" id="path"></div>
+  <div class="paper" id="paper"></div>
+  <p id="related"></p>
+</article>
+
+<script src="data.js"></script>
+<script src="i18n.js"></script>
+<script>
+(function () {
+  "use strict";
+  var D = window.SITE_DATA;
+  var I = window.SITE_I18N;
+  var U = (D.ui && D.ui[D.lang]) || D.ui.sv;
+
+  var paper = document.getElementById("paper");
+  var title = document.getElementById("title");
+  var pathEl = document.getElementById("path");
+  var related = document.getElementById("related");
+  var raw = document.getElementById("raw");
+  var f = new URLSearchParams(location.search).get("f") || "";
+
+  I.apply(D);
+  document.title = I.t(D, "readerTitle");
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function fileHref(path) {
+    return I.addLang(/\.(md|json|csv|txt|py|js|ts|mjs)$/i.test(path)
+      ? "visa.html?f=" + encodeURIComponent(path)
+      : path, D);
+  }
+
+  function inline(s) {
+    var out = esc(s);
+    out = out.replace(/`([^`]+)`/g, "<code>$1</code>");
+    out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    out = out.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+    out = out.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function (all, label, url) {
+      if (/^https?:/i.test(url)) {
+        return '<a href="' + esc(url) + '" rel="noopener noreferrer">' + label + "</a>";
+      }
+      return '<a href="' + esc(fileHref(url)) + '">' + label + "</a>";
+    });
+    return out;
+  }
+
+  function markdown(src) {
+    var lines = src.replace(/\r\n?/g, "\n").split("\n");
+    var out = [], para = [], list = null, code = false;
+
+    function flushPara() {
+      if (para.length) { out.push("<p>" + para.map(inline).join("<br>") + "</p>"); para = []; }
+    }
+    function closeList() { if (list) { out.push("</" + list + ">"); list = null; } }
+    function openList(kind) { if (list !== kind) { closeList(); out.push("<" + kind + ">"); list = kind; } }
+    function tableRow(line) {
+      return line.replace(/^\||\|$/g, "").split("|").map(function (cell) {
+        return "<td>" + inline(cell.trim()) + "</td>";
+      }).join("");
+    }
+
+    for (var i = 0; i < lines.length; i += 1) {
+      var line = lines[i];
+      if (/^\s*```/.test(line)) {
+        flushPara(); closeList();
+        if (code) { out.push("</code></pre>"); code = false; }
+        else { out.push("<pre><code>"); code = true; }
+        continue;
+      }
+      if (code) { out.push(esc(line)); continue; }
+
+      var h = line.match(/^\s*(#{1,6})\s+(.*)$/);
+      if (h) { flushPara(); closeList(); var lv = h[1].length;
+        out.push("<h" + lv + ">" + inline(h[2]) + "</h" + lv + ">"); continue; }
+      if (/^\s*[-*]{3,}\s*$/.test(line)) { flushPara(); closeList(); out.push("<hr>"); continue; }
+      var ul = line.match(/^\s*[-*+]\s+(.*)$/);
+      if (ul) { flushPara(); openList("ul"); out.push("<li>" + inline(ul[1]) + "</li>"); continue; }
+      var ol = line.match(/^\s*\d+[.)]\s+(.*)$/);
+      if (ol) { flushPara(); openList("ol"); out.push("<li>" + inline(ol[1]) + "</li>"); continue; }
+      var q = line.match(/^\s*>\s?(.*)$/);
+      if (q) { flushPara(); closeList(); out.push("<blockquote>" + inline(q[1]) + "</blockquote>"); continue; }
+      if (/^\s*\|/.test(line)) {
+        flushPara(); closeList();
+        var rows = [];
+        while (i < lines.length && /^\s*\|/.test(lines[i])) { rows.push(lines[i]); i += 1; }
+        i -= 1;
+        if (rows.length > 1 && /^[\s|:-]+$/.test(rows[1])) {
+          out.push("<table><tr>" + rows[0].replace(/^\||\|$/g, "").split("|").map(function (c) {
+            return "<th>" + inline(c.trim()) + "</th>"; }).join("") + "</tr>");
+          for (var r = 2; r < rows.length; r += 1) out.push("<tr>" + tableRow(rows[r]) + "</tr>");
+          out.push("</table>");
+        } else {
+          rows.forEach(function (row) { out.push("<p>" + inline(row) + "</p>"); });
+        }
+        continue;
+      }
+      if (!line.trim()) { flushPara(); closeList(); continue; }
+      para.push(line);
+    }
+    flushPara(); closeList();
+    if (code) out.push("</code></pre>");
+    return out.join("\n");
+  }
+
+  function sameContext(f) {
+    var found = [];
+    var data = window.SITE_DATA || { steps: [], groups: [] };
+    (data.steps || []).concat(data.groups || []).forEach(function (item) {
+      if (!item.links) return;
+      if (item.links.some(function (l) { return l.path === f; })) {
+        item.links.forEach(function (l) { if (l.path !== f) found.push(l); });
+      }
+    });
+    var seen = {};
+    return found.filter(function (l) {
+      if (seen[l.path]) return false;
+      seen[l.path] = true;
+      return true;
+    }).slice(0, 12);
+  }
+
+  function fail(msg) {
+    title.textContent = U.failTitle;
+    pathEl.textContent = f;
+    paper.innerHTML = "<p>" + esc(msg) + "</p><p>" + U.failHtml + "</p>";
+  }
+
+  if (!f || /^[a-z]+:/i.test(f) || f.charAt(0) === "/") { fail(U.failEmpty); return; }
+  var url = new URL(f, location.href);
+  var ext = (f.split(".").pop() || "").toLowerCase();
+  title.textContent = f.split("/").pop();
+  pathEl.textContent = f;
+  raw.href = f;
+  fetch(url, { cache: "no-store" }).then(function (res) {
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return res.text();
+  }).then(function (text) {
+    if (["json", "csv", "py", "js", "ts", "mjs"].indexOf(ext) !== -1) {
+      paper.innerHTML = "<pre>" + esc(text) + "</pre>";
+    } else {
+      paper.innerHTML = markdown(text);
+    }
+    var ctx = sameContext(f);
+    if (ctx.length) {
+      related.innerHTML = "<strong>" + esc(U.relatedLabel) + "</strong> " + ctx.map(function (l) {
+        return '<a href="' + esc(fileHref(l.path)) + '">' + esc(l.label) + "</a>";
+      }).join(" · ");
+    }
+    I.applyLinks(D);
+  }).catch(function (err) { fail(String(err)); });
+})();
+</script>
+</body>
+</html>

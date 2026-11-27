@@ -1,0 +1,451 @@
+{
+  "workflow": "project-loop",
+  "cycle": 35,
+  "entries": [
+    {
+      "id": "P-001",
+      "date": "2026-11-25",
+      "phase": "FAS 1",
+      "task": "Read AGENTS.md and locate project rules",
+      "status": "done",
+      "evidence": "AGENTS.md read; only one AGENTS.md found"
+    },
+    {
+      "id": "P-002",
+      "date": "2026-11-25",
+      "task": "Inventory directories and repositories",
+      "status": "done",
+      "evidence": "reports/NULAGESRAPPORT_2026-11-25.md; no .git directories found"
+    },
+    {
+      "id": "P-003",
+      "date": "2026-11-25",
+      "task": "Check GitHub publication path",
+      "status": "resolved_by_P-009",
+      "evidence": "Initially blocked: gh not installed, browser not logged in (D-004). Resolved by discovering stored git credential for account FriendsofHilma; see P-009 and D-009."
+    },
+    {
+      "id": "P-004",
+      "date": "2026-11-25",
+      "task": "Save master prompt verbatim",
+      "status": "done",
+      "evidence": "MASTERPROMPT.md"
+    },
+    {
+      "id": "P-005",
+      "date": "2026-11-25",
+      "task": "Safe refactor: export hoConcatDepth from src/index.ts to match AGENTS.md API",
+      "status": "done",
+      "evidence": "npx tsc --noEmit clean; npm run build clean; npm test unchanged output"
+    },
+    {
+      "id": "P-006",
+      "date": "2026-11-25",
+      "task": "Create nine step READMEs, four stakeholder READMEs and six integration READMEs",
+      "status": "done",
+      "evidence": "project-loop/steps/*/README.md, stakeholders/*/README.md, integrations/*/README.md"
+    },
+    {
+      "id": "P-007",
+      "date": "2026-11-25",
+      "task": "Write Hilma Papers search/assistant specification and GitHub repository proposals",
+      "status": "done",
+      "evidence": "research/HILMA_PAPERS_SOK_ASSISTENT_SPEC.md, research/GITHUB_REPO_FORSLAG.md, research/ATERANVANDBARA_KOMPONENTER.md"
+    },
+    {
+      "id": "P-008",
+      "date": "2026-11-25",
+      "task": "Write current-state report and preliminary final report",
+      "status": "done",
+      "evidence": "reports/NULAGESRAPPORT_2026-11-25.md, reports/SLUTRAPPORT_2026-11-25.md"
+    },
+    {
+      "id": "P-009",
+      "date": "2026-11-25",
+      "task": "Publish master prompt to GitHub as FriendsofHilma/project-loop under CC BY 4.0",
+      "status": "done",
+      "evidence": "https://github.com/FriendsofHilma/project-loop - MASTERPROMPT.md, README.md, LICENSE; published MASTERPROMPT.md SHA-256 matches local file (96b620a0...); user approved target repo and licence; DECISIONS.md D-009"
+    },
+    {
+      "id": "P-010",
+      "date": "2026-11-25",
+      "task": "Complete step 2 underlays: NOSAD import, Klirrhack 2027 interoperability package, international intro, funding map, stakeholder register",
+      "status": "done",
+      "evidence": "steps/02-network/{NOSAD_IMPORT,INTEROPERABILITET_KLIRRHACK,INTERNATIONELL_INTRO,FINANSIERINGSKARTA}.md and reports/INTERESSENTREGISTER_2026-11-25.md; stakeholder JSON validated (25 records, no duplicate ids, personal_data=false); no external contact or application"
+    },
+    {
+      "id": "P-011",
+      "date": "2026-11-25",
+      "task": "Record user-reported access to accredited researchers and update F02 assessment",
+      "status": "documented_pending_details",
+      "evidence": "DECISIONS.md D-010; FINANSIERINGSKARTA.md section 1b and F02; INTERESSENTREGISTER_2026-11-25.md RES-04 (26 records); SLUTRAPPORT_2026-11-25.md section 6. Marked user-reported and unverified; no personal data registered."
+    },
+    {
+      "id": "P-012",
+      "date": "2026-11-25",
+      "phase": "STEG 3",
+      "task": "Activate and complete step 3: formulate and prioritize project proposals from step 1-2 underlays",
+      "status": "done",
+      "evidence": "DECISIONS.md D-011; steps/03-project-formulation/PROJEKTPORTFÖLJ_STEG3_2026-11-25.md and PROJEKTPORTFOLJ_STEG3_2026-11-25.json; seven projects P-01..P-07 linked to stakeholder IDs and funding tracks; scoring weights and gates documented; JSON parsed without errors; no external contact, application or repo change; steps 4-9 remain not activated"
+    },
+    {
+      "id": "P-013",
+      "date": "2026-11-25",
+      "phase": "STEG 3",
+      "task": "Record user approval of the step 3 priority order without changes",
+      "status": "done",
+      "evidence": "DECISIONS.md D-012; current_step.json status step_3_priority_order_approved_awaiting_step_4_decision; B-006 done_partial and B-006b created; portfolio JSON status updated; no project moved and no step 4 activation"
+    },
+    {
+      "id": "P-014",
+      "date": "2026-11-25",
+      "phase": "PARALLELLT LOKALT SPÅR",
+      "task": "Create a local-only Arvsfonden application-drafting agent, research official requirements and granted peer-support projects, and produce a first draft",
+      "status": "done",
+      "evidence": "DECISIONS.md D-013; .opencode/agents/arvsfonden-ansokningsagent.md; .opencode/opencode.jsonc agent permissions; project-loop/agents/arvsfonden-ansokningsagent/{README.md,AGENT.md,SOURCES.md}; output/{UTKAST_ARVSFONDEN.md,PEER_SUPPORT_PATTERNS.md,CHECK_RESULT.md}; tools/check_draft.py; character check PASS for 21 bounded fields; official arvsfonden.se pages read 2026-11-25; four granted peer-support project pages read in full; no submission, contact, account, signature or personal data; step 4 remains paused"
+    },
+    {
+      "id": "P-015",
+      "date": "2026-11-25",
+      "phase": "STEG 4 – OMSKRIVNING",
+      "task": "Redefine step 4 from partnerships to meticulous aesthetic formatting, graphic profile and authentic/accurate visualization, with Siegel's fourth domain applied as a design heuristic",
+      "status": "done",
+      "evidence": "DECISIONS.md D-015; steps/04-partnerships/README.md rewritten in place; new steps/04-partnerships/GRAFISK_PROFIL.md v0.1 [FORSLAG] and SIEGEL_DOMAN_4.md; WORKFLOW.md v1.1; CURRENT_STATE.md; project-loop/README.md; steps 03, 05, 06, 07 and integrations/communication README updated; MASTERPROMPT.md unchanged; figure palette tokens taken from tools/make-figures.js; Siegel & Drulis 2023 (PMC9897608) and move2focus.net cited as [E-secondary], design application tagged [I]; node tools/make-figures.js regenerated 5 SVG files with SHA-256 hashes identical before and after (fig1 2CD70626..., fig2 46F9A63E..., fig3 6B9D9374..., fig4 15938657..., fig5 AF0DAA44...); all 5 SVGs parsed as XML; MASTERPROMPT.md SHA-256 unchanged (96b620a08712a79709852e27057facb58e202b4a02e2b99b100bdb2bc6c8e98b); no npm modules downloaded; no contact, application, signature or publication; step_4_activated remains false"
+    },
+    {
+      "id": "P-016",
+      "date": "2026-11-25",
+      "phase": "STEG 4",
+      "task": "Activate step 4 in its redefined meaning, approve the graphic profile v0.1 and deliver the first local visual set",
+      "status": "done",
+      "evidence": "DECISIONS.md D-017; user activation, profile approval and permission to download visualization libraries; GRAFISK_PROFIL.md v0.1 marked approved; steps/04-partnerships/README.md status GENOMFÖRD; state/current_step.json step_4_activated=true and status=step_4_completed; figures/fig6-profile-board.svg, fig7-complement-chord.svg and fig8-offset-map.svg generated; project-loop/steps/04-partnerships/viewer/index.html created; no project identity, contact, application or publication"
+    },
+    {
+      "id": "P-017",
+      "date": "2026-11-25",
+      "task": "Install and document local visualization modules and verify deterministic figures, build, tests and browser rendering",
+      "status": "done",
+      "evidence": "npm install d3@7.9.2 --save-exact (ISC, shasum 25ceac8314c38a543387b6e56573414c67c1585e, integrity sha512-ZKb/mONPVKzaO5UlcWcwN8bS4ezvQaYu+bsou+XgNABdGC800kwH651ADTbbTxMPHW13UlvbQafdmJQDk1w7Mg==), npm ls --depth=0 clean, npm run build clean, npm test green, npm run figures:step4 deterministic with unchanged SHA-256 on rerun, XML parse 8/8 SVG, npm run serve browser check: viewer and figures HTTP 200, three module and OrbitControls 200, no console warnings/errors; package-lock.json audited 44 packages, 0 vulnerabilities; no external accounts or publication"
+    },
+    {
+      "id": "P-018",
+      "date": "2026-11-25",
+      "phase": "STEG 5 – FÖRBEREDELSE",
+      "task": "Prepare the local run for step 5 without activating it: runbook, project-to-funding matrix and application-dossier template",
+      "status": "done",
+      "evidence": "DECISIONS.md D-018; steps/05-funding/KORNINGSPLAN.md with gates G1-G8 and work packages WP0-WP7; MATCHNINGSMATRIS.md covering all seven approved projects and F01-F08 plus historical F09-F12 as patterns; MALL_ANSOKNINGSUNDERLAG.md with status block, placeholder budget, provenance and checklist; steps/05-funding/README.md status prepared_not_activated; state/current_step.json step_5_prepared=true and step_5_activated=false; B-011 prepared_awaiting_human_decision; no project or track selected, no gate opened, no amount fixed, no personal data, contact, account, application, signature or publication"
+    },
+    {
+      "id": "P-019",
+      "date": "2026-11-25",
+      "phase": "STEG 5 – DEFINITION OCH ANALYS",
+      "task": "Redefine step 5 as narrative integration across all levels; analyse the current situation in words and describe how the step 4 visual models relate",
+      "status": "done",
+      "evidence": "DECISIONS.md D-019; steps/05-funding/NARRATIV_INTEGRATION.md with formal definition, all-level scope, whole-situation analysis in words, verbal relations among fig6-profile-board.svg, fig7-complement-chord.svg, fig8-offset-map.svg and viewer/index.html, work forms N1-N6 and boundaries; steps/05-funding/README.md rewritten as narrative integration while KORNINGSPLAN.md, MATCHNINGSMATRIS.md and MALL_ANSOKNINGSUNDERLAG.md marked as historical funding sub-track; WORKFLOW.md 1.3; state/current_step.json step_5_definition=narrative_integration_all_levels and step_5_activated=false; B-011 definition_complete_awaiting_human_decision; no new compilation, activation, external contact, account, application, signature, personal data, publication or new Cosmic Block type"
+    },
+    {
+      "id": "P-020",
+      "date": "2026-11-25",
+      "phase": "STEG 5 – LOKAL AKTIVERING",
+      "task": "Save the approved analysis permanently and activate step 5 locally with P-07 and F02 as the first financial narrative pass",
+      "status": "done",
+      "evidence": "DECISIONS.md D-020; user wrote 'Jättebra skrivet om situationen just nu. Se till att spara det ordentligt. : ”Aktivera steg 5 med P-07 och F02”'; steps/05-funding/NARRATIV_INTEGRATION.md section 8 records approval and activation, SHA-256 E508491A8743E01D8906B28A1865BF31A3F6306CC2925443C0D41DD603B1469F recorded in D-020; new local files ANSOKNINGSUNDERLAG_P-07.md, BUDGET_P-07.csv and FINANSIERINGSSTRATEGI.md using placeholders and cited F02 facts; state/current_step.json version 1.4, current_step=5, active_steps=[1,2,3,4,5], step_5_activated=true, step_5_first_pass.project=P-07, .track=F02, .mode=financial_narrative_N5, .external_submission=false; B-011 done, B-012 opened for G3-G8; no external contact, account, application, signature, payment, personal data or publication; no new Cosmic Block type"
+    },
+    {
+      "id": "P-021",
+      "date": "2026-11-25",
+      "phase": "STEG 6 – FÖRBEREDELSE",
+      "task": "Define step 6 as state integration and prepare the local run without activating it",
+      "status": "done",
+      "evidence": "DECISIONS.md D-021; steps/06-implementation/STATE_INTEGRATION.md defines state integration, distinguishes it from narrative integration, describes our self-story, our document-derived relational stance and offer-versus-request gaps in words; SIEGEL_DOMAN_6.md marks the sixth domain [E-secondary] and the application [I]; ERBJUDANDE_MOT_EFTERFRAGAN.md has nine sourced rows plus a silent placeholder; KORNINGSPLAN_STEG6.md has gates S1-S8 and WP0-WP7; MALL_TILLSTANDSJAMFORELSE.md created; README.md rewritten; WORKFLOW.md 1.5; state/current_step.json step_6_definition=state_integration_all_partner_relations, step_6_prepared=true and step_6_activated=false; B-013 prepared_awaiting_human_decision; step 5 remains active with P-07/F02; no partner selected, no gate opened, no external contact, account, application, signature, payment, personal data or publication; no new Cosmic Block type"
+    },
+    {
+      "id": "P-022",
+      "date": "2026-11-25",
+      "phase": "STEG 6 – LOKAL AKTIVERING",
+      "task": "Activate step 6 locally as state integration after the user's explicit decision, without choosing a partner or writing an application",
+      "status": "done",
+      "evidence": "DECISIONS.md D-022; user said 'Ok, aktivera steg 6! Sedan kan du köra B-013 - alltså skriva arvsfondsansökan!'; interpretation: step 6 is activated locally in the D-021 sense, while B-013 is the activation/partner item and Arvsfonden is the separate paused track D-013/P-014 with B-008/B-009 under D-014; WORKFLOW.md 1.6; state/current_step.json current_step=6, active_steps=[1,2,3,4,5,6], prepared_steps=[7,8,9], step_6_activated=true, step_6_activation_decision=D-022, step_6_first_pass.status=awaiting_human_selection; B-013 status=activated_awaiting_partner_selection; B-014 opened to clarify the Arvsfonden request; step 5 remains active with P-07/F02; no partner selected, no gate opened, no Arvsfonden application written or submitted, no external contact, account, application, signature, payment, personal data or publication; no new Cosmic Block type"
+    },
+    {
+      "id": "P-023",
+      "date": "2026-11-26",
+      "phase": "ARVSFONDEN – ÅTERUPPTAGET LOKALT",
+      "task": "Write a dated local Arvsfonden draft with provisional project, target group and conditions choices",
+      "status": "done",
+      "evidence": "D-023; agents/arvsfonden-ansokningsagent/output/UTKAST_ARVSFONDEN_2026-11-26.md, VERSIONSVAL_2026-11-26.md and CHECK_RESULT_2026-11-26.md; RESULT PASS; no submission, signature, contact or personal data"
+    },
+    {
+      "id": "P-024",
+      "date": "2026-11-26",
+      "phase": "STEG 7–9 – INTEGRATION",
+      "task": "Save the new masterprompt and integrate steps 7–9 while preserving the old definitions and directory names",
+      "status": "done",
+      "evidence": "D-024; MASTERPROMPT_2026-11-26.md; steps/07-dissemination, steps/08-evaluation and steps/09-renewal rewritten in place with historical sections; WORKFLOW 1.7; no external action"
+    },
+    {
+      "id": "P-025",
+      "date": "2026-11-26",
+      "phase": "GITHUB – LOKAL COMMIT",
+      "task": "Prepare a local Git commit for the revised project-loop documentation",
+      "status": "done_pending_approval_to_push",
+      "evidence": "D-025; local commit 3563385d8c7c81f4b761644d0d6e772ca84d315e in C:\\Users\\timsa\\AppData\\Local\\Temp\\opencode\\project-loop-gh-local; original public repo untouched; no push, merge or publication"
+    },
+    {
+      "id": "P-026",
+      "date": "2026-11-26",
+      "phase": "AVHANDLING – NYTT PROJEKT",
+      "task": "Create a Swedish dissertation project without touching the Villari source copy or existing papers",
+      "status": "done",
+      "evidence": "D-026; avhandling/ with chapters, appendices, bibliography, terminology index and provenance; all material tagged [E]/[I]/[?]"
+    },
+    {
+      "id": "P-027",
+      "date": "2026-11-26",
+      "phase": "ASSISTENT – OPENCODE",
+      "task": "Create a simple local project-loop assistant with callable steps and human checkpoints",
+      "status": "done",
+      "evidence": "D-027; .opencode/agents/project-loop-assistant.md; project-loop/PROJECT_LOOP_ASSISTANT.md; additive opencode.jsonc entry; eight checkpoints; no automatic chaining"
+    },
+    {
+      "id": "P-028",
+      "date": "2026-11-26",
+      "phase": "RIEMANN – WORKSTREAM",
+      "task": "Start the Riemann research workstream with foundations, dataset inventory, plan and first reproducible figure",
+      "status": "done",
+      "evidence": "D-028; riemann/; no dataset downloaded; no proof claim; status categories separated"
+    },
+    {
+      "id": "P-029",
+      "date": "2026-11-26",
+      "phase": "NIO VARV – SJÄLVSTÄNDIG KÖRNING",
+      "task": "Run nine full project-loop cycles autonomously and consolidate the results",
+      "status": "done",
+      "evidence": "D-029; cycles/2026-11-26/cycle-01.md … cycle-09.md; reports/KONSEKVENSKONTROLL_2026-11-26.md; state 1.7 with current_step 9; no external contact, submission, signature, payment, personal data or publication"
+    },
+    {
+      "id": "P-030",
+      "date": "2026-11-26",
+      "phase": "YTSELIGARE 13 VARV",
+      "task": "Verify masterprompt SHA-256, three JSON state files and the nine existing cycles",
+      "status": "done",
+      "evidence": "cycles/2026-11-26/cycle-10.md; masterprompt SHA unchanged; JSON 3/3"
+    },
+    {
+      "id": "P-031",
+      "date": "2026-11-26",
+      "phase": "YTSELIGARE 13 VARV",
+      "task": "Re-run the dated Arvsfonden draft character check",
+      "status": "done",
+      "evidence": "RESULT: PASS on 23 lines; not submitted, signed or published"
+    },
+    {
+      "id": "P-032",
+      "date": "2026-11-26",
+      "phase": "YTSELIGARE 13 VARV",
+      "task": "Check the Swedish dissertation directory for broken relative links",
+      "status": "done",
+      "evidence": "18 Markdown files; 0 broken relative links; Villari copy untouched"
+    },
+    {
+      "id": "P-033",
+      "date": "2026-11-26",
+      "phase": "YTSELIGARE 13 VARV",
+      "task": "Regenerate the first Riemann figure twice and compare hashes",
+      "status": "done",
+      "evidence": "0b188cc2 both times; pi(10000)=1229; no download"
+    },
+    {
+      "id": "P-034",
+      "date": "2026-11-26",
+      "phase": "YTSELIGARE 13 VARV",
+      "task": "Record local mpmath availability and dataset download status",
+      "status": "done",
+      "evidence": "mpmath 1.3.0 installed; 18 not_downloaded rows; 0 downloads"
+    },
+    {
+      "id": "P-035",
+      "date": "2026-11-26",
+      "phase": "YTSELIGARE 13 VARV",
+      "task": "Verify the project-loop assistant's callable steps and checkpoints",
+      "status": "done",
+      "evidence": "step1..step9 present; 18 checkpoint mentions; no automatic chaining"
+    },
+    {
+      "id": "P-036",
+      "date": "2026-11-26",
+      "phase": "YTSELIGARE 13 VARV",
+      "task": "Inventory status markers in the stakeholder relationship map",
+      "status": "done",
+      "evidence": "[E], [E-secondary], [I][?] and [FORSLAG][?] present"
+    },
+    {
+      "id": "P-037",
+      "date": "2026-11-26",
+      "phase": "YTSELIGARE 13 VARV",
+      "task": "Inventory action IDs and status markers in the action plan",
+      "status": "done",
+      "evidence": "A01..A13; [E], [I][ARG], [ARG] and [?] present"
+    },
+    {
+      "id": "P-038",
+      "date": "2026-11-26",
+      "phase": "YTSELIGARE 13 VARV",
+      "task": "Confirm the known historical link error remains documented",
+      "status": "done",
+      "evidence": "GITHUB_REPO_README.md -> LICENSE documented; no new link errors"
+    },
+    {
+      "id": "P-039",
+      "date": "2026-11-26",
+      "phase": "YTSELIGARE 13 VARV",
+      "task": "Consolidate C10-C18 before the recovery visual redesign",
+      "status": "done",
+      "evidence": "All checks green; no external action; new requirement parsed as [E-user]"
+    },
+    {
+      "id": "P-040",
+      "date": "2026-11-26",
+      "phase": "YTSELIGARE 13 VARV",
+      "task": "Implement and browser-verify the prime-space flight screensaver",
+      "status": "done",
+      "evidence": "index.html, README.md, PRIMTALSRYMD.md; pixels=42; 13 prime turns; 0 console errors"
+    },
+    {
+      "id": "P-041",
+      "date": "2026-11-26",
+      "phase": "YTSELIGARE 13 VARV",
+      "task": "Verify fixed seven-part cube cells and multiple 13^3 blocks",
+      "status": "done",
+      "evidence": "PARTS=7 hardcoded; blocks=3 default; canvas sample lit=989/9262, warm=15, cool=907"
+    },
+    {
+      "id": "P-042",
+      "date": "2026-11-26",
+      "phase": "YTSELIGARE 13 VARV",
+      "task": "Run thirteen short recovery sessions with the restartWith verification hook",
+      "status": "done",
+      "evidence": "All 13 finished; prime turn sequences correct; 0 console errors; B-020 opened for human visual review"
+    },
+    {
+      "id": "P-043",
+      "date": "2026-11-26",
+      "phase": "TVA YTTERLIGARE VARV",
+      "task": "Visually polish the prime-space screensaver: higher contrast, clearer dragon, smoother trail",
+      "status": "done",
+      "evidence": "index.html updated; CSS vars --drake and --warp added; active fan sector highlighted in warm colour; trail uses lineCap round"
+    },
+    {
+      "id": "P-044",
+      "date": "2026-11-26",
+      "phase": "TVA YTTERLIGARE VARV",
+      "task": "Browser-verify the polished screensaver after changes",
+      "status": "done",
+      "evidence": "reload + restartWith(8): pixels=0, heading=0, parts=7, blocks=3, finished=false, 0 console errors"
+    },
+    {
+      "id": "P-045",
+      "date": "2026-11-26",
+      "phase": "TVA YTTERLIGARE VARV",
+      "task": "Write cycle-23 and cycle-24 reports",
+      "status": "done",
+      "evidence": "cycles/2026-11-26/cycle-23.md and cycle-24.md created"
+    },
+    {
+      "id": "P-046",
+      "date": "2026-11-26",
+      "phase": "TVA YTTERLIGARE VARV",
+      "task": "Open B-020 for human visual review of the prime-space screenshot",
+      "status": "done",
+      "evidence": "backlog.json updated; screenshot available in browser tab"
+    },
+    {
+      "id": "P-047",
+      "date": "2026-11-26",
+      "phase": "KODFORBATTRING 25-32",
+      "task": "Extract the prime-space rules into prime.js and add a zero-dependency test",
+      "status": "done",
+      "evidence": "prime.js + test-prime.js; node test-prime.js passes 57 checks at this point"
+    },
+    {
+      "id": "P-048",
+      "date": "2026-11-26",
+      "phase": "KODFORBATTRING 25-32",
+      "task": "Fix the turn direction: +3 was a right turn, +1 is a true left turn",
+      "status": "done",
+      "evidence": "D-035; 13 turns from heading 0 now end at heading 1; documents updated"
+    },
+    {
+      "id": "P-049",
+      "date": "2026-11-26",
+      "phase": "KODFORBATTRING 25-32",
+      "task": "Add ?seed=N, frozen final frame and repaint after resize",
+      "status": "done",
+      "evidence": "D-036; frozen canvas after finish and after a forced resize; 0 console errors"
+    },
+    {
+      "id": "P-050",
+      "date": "2026-11-26",
+      "phase": "KODFORBATTRING 25-32",
+      "task": "Add Space pause/resume and visibility pause",
+      "status": "done",
+      "evidence": "D-037; paused=true at pixel 1, continued to pixel 2 after resume()"
+    },
+    {
+      "id": "P-051",
+      "date": "2026-11-26",
+      "phase": "KODFORBATTRING 25-32",
+      "task": "Add in-page selftest (?selftest=1) and window.__primeSpace.selftest()",
+      "status": "done",
+      "evidence": "D-038; ok=true, heading 1, expected turns; 64 checks in node test"
+    },
+    {
+      "id": "P-052",
+      "date": "2026-11-26",
+      "phase": "KODFORBATTRING 25-32",
+      "task": "Accessibility and performance: aria-live, reduced motion, precomputed fan angles",
+      "status": "done",
+      "evidence": "D-039; 0 console errors; visual output unchanged"
+    },
+    {
+      "id": "P-053",
+      "date": "2026-11-26",
+      "phase": "KODFORBATTRING 25-32",
+      "task": "Write cycle reports 25-32 and update README/spec/state to 32 cycles",
+      "status": "done",
+      "evidence": "D-040; state version 2.0 with cycle 32"
+    },
+    {
+      "id": "P-054",
+      "date": "2026-11-27",
+      "phase": "VARV 33",
+      "task": "Inventory all project components and generate ten local SVG artworks",
+      "status": "done",
+      "evidence": "D-041/D-042; hemsida/tools/make-art.js; XML 10/10; image service Invalid credential"
+    },
+    {
+      "id": "P-055",
+      "date": "2026-11-27",
+      "phase": "VARV 34",
+      "task": "Build the local website with nine clickable illustrated steps, component catalogue and reader",
+      "status": "done",
+      "evidence": "D-043; hemsida/index.html, data.js, app.js, visa.html; 139 checks; 0 console errors"
+    },
+    {
+      "id": "P-056",
+      "date": "2026-11-27",
+      "phase": "VARV 35",
+      "task": "Final verification of site, ouroboros tests, state 2.1 and local commit amend",
+      "status": "done",
+      "evidence": "D-044; test-site 139, test-dragon 25, test-prime 64, Arvsfonden PASS, masterprompt SHA-256 unchanged"
+    },
+    {
+      "id": "P-057",
+      "date": "2026-11-27",
+      "phase": "VARV 35",
+      "task": "Document decisions D-041-D-044, cycles 33-35 and open website review B-022",
+      "status": "done",
+      "evidence": "cycles/2026-11-27/cycle-33.md ... cycle-35.md; CURRENT_STATE, WORKFLOW 2.1, DECISIONS, KONSEKVENSKONTROLL"
+    }
+  ]
+}

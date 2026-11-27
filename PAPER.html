@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Cosmic Block</title>
+<style>
+  @page {
+    size: A4;
+    margin: 2cm 2cm 2cm 2cm;
+    @bottom-center {
+      content: "The Cosmic Block — page " counter(page) " of " counter(pages);
+      font-family: "Georgia", serif;
+      font-size: 9pt;
+      color: #666;
+    }
+  }
+  body {
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    max-width: none;
+  }
+  h1 {
+    font-size: 20pt;
+    text-align: center;
+    border-bottom: 2px solid #333;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+  }
+  h2 {
+    font-size: 14pt;
+    border-bottom: 1px solid #999;
+    padding-bottom: 0.3em;
+    margin-top: 1.5em;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 11.5pt;
+    margin-top: 1.2em;
+    page-break-after: avoid;
+  }
+  p {
+    margin: 0.7em 0;
+    text-align: justify;
+  }
+  code {
+    font-family: "Courier New", monospace;
+    font-size: 8.5pt;
+    background: #f4f4f4;
+    padding: 0.1em 0.3em;
+    border-radius: 2px;
+  }
+  strong { font-weight: bold; }
+  em { font-style: italic; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0.8em 0;
+    font-size: 9pt;
+  }
+  th, td {
+    border: 1px solid #999;
+    padding: 0.4em 0.6em;
+    text-align: left;
+  }
+  th { background: #eee; }
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0.8em auto;
+    page-break-inside: avoid;
+  }
+  ul, ol { margin: 0.7em 0; padding-left: 1.5em; }
+  li { margin: 0.3em 0; }
+  blockquote {
+    margin: 0.8em 0;
+    padding-left: 1em;
+    border-left: 3px solid #999;
+    font-style: italic;
+  }
+  hr { border: none; border-top: 1px solid #ccc; margin: 1.5em 0; }
+  pre { background: #f4f4f4; padding: 0.8em; overflow-x: auto; }
+  .cover {
+    text-align: center;
+    padding-top: 4em;
+    page-break-after: always;
+  }
+  .cover h1 { font-size: 24pt; }
+  .cover .subtitle { font-size: 12pt; color: #555; margin-top: 1em; }
+  .cover .meta { margin-top: 3em; font-size: 9pt; color: #666; }
+  .figcap {
+    font-size: 8.5pt;
+    font-style: italic;
+    color: #555;
+    text-align: center;
+    margin-top: 0.3em;
+    page-break-after: avoid;
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>The Cosmic Block</h1>
+  <div class="subtitle">A Hierarchical Integer Tensor as an Interdisciplinary Artifact</div>
+  <div class="meta">
+    An academic paper on the computational model, its visualization, and its readings<br>
+    in mathematics, physics, art history, and spiritual science<br>
+    <br>
+    Cosmic Block Project — TypeScript implementation with Three.js visualization
+  </div>
+</div>
+
+<h1>The Cosmic Block</h1>
+<h2>A Hierarchical Integer Tensor as an Interdisciplinary Artifact</h2>
+<p><strong>An academic paper on the computational model, its visualization, and its readings in mathematics, physics, art history, and spiritual science</strong></p>
+<hr>
+<h3>Abstract</h3>
+<p>The <em>Cosmic Block</em> is a hierarchical data structure built from a single primitive: an integer <em>cell</em> constrained to the ten values <code>0–9</code>, initialized to zero. Cells nest into four realized levels — a line (Level 1), a plane (Level 2), a model space (Level 3), a collection of model spaces (Level 4) — and one designed level, a higher-order collection (Level 5). The default dimensions (<code>13</code>, <code>13×13</code>, <code>13×13×13</code>, <code>5</code>, <code>2</code>) were chosen as an interpretive response to a painting by the Swedish abstract pioneer Hilma af Klint (1862–1944). This paper documents the model as built, states precisely what was and was not verified, and then reads it through four lenses. In <strong>mathematics</strong>, the model is a nested family of tensors over the ring ℤ₁₀, with an address space that is a three-dimensional vector space over the field 𝔽₁₃, and a natural complement involution <code>n ↦ 9 − n</code> that partitions the ten values into five complementary pairs. In <strong>physics</strong>, it is read as a discrete, quantized scalar field on a 13³ torus and, more speculatively, as a ℤ₁₀ lattice gauge configuration space. In <strong>art history</strong>, it is a computational <em>restitution</em> of af Klint's formal devices — grid, series, symmetry, complementary pair, diagrammatic colour — situated in her Theosophical and spiritist milieu. In <strong>spiritual science</strong>, the value-to-colour mapping is traced to the Theosophical thought-form tradition of Besant and Leadbeater (1901) and to the "spiritual science" (Geisteswissenschaft) of Rudolf Steiner. The paper is deliberately explicit about its epistemic limits: the reference painting was never decoded by the author-agent's image pipeline, so the dimensional choices are <em>assumptions</em>, not measurements; and the metaphysical readings are offered as interpretations, not claims. The contribution is therefore double: a working, tested implementation of a small formal system, and a case study in how one object can be made legible to four disciplines at once — and where that legibility breaks down.</p>
+<p><strong>Keywords:</strong> integer tensor, Hilma af Klint, abstract art, Theosophy, anthroposophy, 𝔽₁₃, ℤ₁₀, lattice field, complementary pair, boundary object, TypeScript, Three.js</p>
+<hr>
+<h2>Contents</h2>
+<p>1. <a href="#1-introduction">Introduction</a><br>2. <a href="#2-the-formal-object">The formal object</a><br>3. <a href="#3-computational-realization">Computational realization</a><br>4. <a href="#4-the-visual-language">The visual language</a><br>5. <a href="#5-mathematical-readings">Mathematical readings</a><br>6. <a href="#6-physical-readings">Physical readings</a><br>7. <a href="#7-art-historical-readings">Art-historical readings</a><br>8. <a href="#8-spiritual-scientific-readings">Spiritual-scientific readings</a><br>9. <a href="#9-discussion-an-interdisciplinary-boundary-object">Discussion: an interdisciplinary boundary object</a><br>10. <a href="#10-conclusion-and-future-work">Conclusion and future work</a><br>11. <a href="#appendix-a-methodological-appendix-what-was-actually-verified">Methodological appendix: what was actually verified</a><br>12. <a href="#references">References</a></p>
+<hr>
+<h2>1. Introduction</h2>
+<h3>1.1 Motivation</h3>
+<p>Most data structures are named for their use. An array, a tree, a hash map — each is a solution to a problem posed elsewhere. The <em>Cosmic Block</em> is unusual in that its shape is not prescribed by an application but by an <em>image</em>. It began as an attempt to give a precise computational form to a promise: that a painter, working between 1906 and 1915 without any mathematical formalism available to her, had arranged nested sequences of marks whose <em>relative lengths</em> carried meaning. The task was to translate that arrangement into a structure that a computer could hold, validate, and render — and then to ask what the result means to different scholarly communities.</p>
+<p>This paper is the record of that translation. It has two halves that are best read as one argument. The first half (§2–§4) is technical: what the object is, how it is built, what was verified. The second half (§5–§8) is interpretive: four disciplinary readings of the same object, each with its own vocabulary, and each with explicit limits. §9 argues that the object functions as a <em>boundary object</em> in the sense of Star and Griesemer (1989) — plastic enough to be used by different communities, robust enough to retain an identity across them.</p>
+<h3>1.2 Contributions</h3>
+<p>1. <strong>A formal specification</strong> of a nested integer-tensor hierarchy with a single validation rule (<code>0 ≤ cell ≤ 9</code>) and zero initialization (§2).<br>2. <strong>A working implementation</strong> in TypeScript, compiled strictly and exercised at runtime, spanning Levels 1–5 (§3, Appendix A).<br>3. <strong>A programmatic visual language</strong> — five figures generated by code, plus a value-to-colour palette — that keeps rendering independent of the mathematical model (§4).<br>4. <strong>Four disciplinary readings</strong> with worked examples, including some genuinely surprising mathematics (the complement involution, the 𝔽₁₃ address space) and a careful historical account of af Klint's milieu (§5–§8).<br>5. <strong>A candid methodological account</strong> of what was and was not checked, including the failure to decode the source painting (§1.3, Appendix A).</p>
+<h3>1.3 Epistemic status: an honest caveat up front</h3>
+<p>A scholarly account must state its evidentiary basis. The following is not rhetoric; it is a defect that a reader should weigh.</p>
+<p>> <strong>Caveat 1 (the painting was not measured).</strong> The reference painting was supplied to the agent that built this model. The agent's image-reading path returned no pixels (the file handle yielded zero lines; the browser and file-system routes available to the runtime were either blocked or inapplicable). Consequently <strong>no dimension in this model was derived from the painting by measurement</strong>. The defaults <code>13</code>, <code>5</code>, <code>2</code> are interpretive assumptions, chosen for structural resonance and justified <em>post hoc</em> in §2.5 and §5. A human who can view the painting should treat these as falsifiable: if the painting encodes different proportions, the defaults should change. The model is built so that they can.</p>
+<p>> <strong>Caveat 2 (the model is a state space, not a dynamical theory).</strong> Nothing in the implementation specifies evolution, energy, or time. Where §6 speaks of "physics", it speaks of <em>kinematics and configuration spaces</em>, never of dynamics.</p>
+<p>> <strong>Caveat 3 (metaphysics is flagged).</strong> §8 reports what a tradition <em>claims</em> and what formal echoes exist. It does not assert that the model verifies any spiritual doctrine.</p>
+<p>> <strong>Caveat 4 (no formal test framework).</strong> Verification (Appendix A) was by ad-hoc runtime scripts, not a versioned suite. This is a real gap, not a stylistic one.</p>
+<p>Readers are asked to hold these caveats in mind: the paper's ambition is interdisciplinary <em>honesty</em>, which means stating where each reading is strong and where it thins out.</p>
+<hr>
+<h2>2. The formal object</h2>
+<h3>2.1 The primitive: a cell</h3>
+<p>The entire hierarchy is generated from one type.</p>
+<p>> <strong>Cell.</strong> An integer <code>w</code> with <code>0 ≤ w ≤ 9</code>, initial value <code>0</code>.</p>
+<p>Every cell is validated before it enters the structure; any value outside <code>[0, 9]</code> raises an error (<code>TypeError</code> for non-numbers, <code>RangeError</code> for out-of-range integers). The set of admissible values is written <strong>𝔻 = {0,1,…,9}</strong>.</p>
+<p>The choice of ten values is not neutral. Ten is the base of decimal counting, it is composite (<code>10 = 2 × 5</code>), and — as §5 shows — it is exactly the size that admits a fixed-point-free complement pairing. Whether af Klint intended any of this is unknowable; what matters here is that the constraint is a genuine design decision with mathematical consequences.</p>
+<h3>2.2 Levels 1–3: line, plane, space</h3>
+<p>The realized core is a three-step nesting.</p>
+<table><tbody><tr><td>Level</td><td>Name</td><td>Type (conceptual)</td><td>Default shape</td><td>Cells</td></tr>
+<tr><td>---</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>
+<tr><td>1</td><td><strong>Line</strong></td><td><code>number[]</code></td><td><code>13</code></td><td>13</td></tr>
+<tr><td>2</td><td><strong>Plane</strong></td><td><code>number[][]</code> (array of lines)</td><td><code>13 × 13</code></td><td>169</td></tr>
+<tr><td>3</td><td><strong>Model Space</strong></td><td><code>number[][][]</code> (array of planes)</td><td><code>13 × 13 × 13</code></td><td>2,197</td></tr>
+<p>Each level is <em>conceptually distinct</em>: a plane is not "a big line" in the API, and a model space is not "a big plane". They have separate constructors (<code>createLine</code>, <code>createPlane</code>, <code>createConfig</code>), separate accessors (<code>getAt</code>, <code>planeGetAt</code>, <code>modelSpaceGetAt</code>), separate zero-checks, and separate concatenation operators (concatenation along a line; horizontal/vertical concatenation of planes; depth concatenation of model spaces). A cell address in the model space is written as an ordered triple <code>(p, r, c)</code> — plane, row, column — and the value there is <code>M[p][r][c]</code>.</p>
+<p>!<a href="figures/fig1-hierarchy.svg">Figure 1. The realized hierarchy.</a></p>
+<p><em>Figure 1. The realized hierarchy. Each level aggregates the level below. Level 6 is a pair of Level-5 structures; Levels 7–9 are reserved and unimplemented.</em></p>
+<p>!<a href="figures/fig2-lattice.svg">Figure 2. The Level-3 model space drawn exhaustively.</a></p>
+<p><em>Figure 2. The Level-3 Model Space drawn exhaustively: all 2,197 cells of the default <code>13³</code> tensor, isometrically projected. The figure is generated by code (<code>tools/make-figures.js</code>), not hand-drawn.</em></p>
+<h3>2.3 Levels 4–6: collection, higher order, pair</h3>
+<p>Above the tensor, three further levels are defined:</p>
+<p>- <strong>Level 4 — Collection of Model Spaces.</strong> An array of Level-3 tensors, all sharing the same <code>(planes, rows, cols)</code>. Default count <strong>5</strong>.<br>- <strong>Level 5 — Higher-order Collection.</strong> An array of Level-4 collections. Default count <strong>2</strong>. In full, the default Level-5 structure is <code>2 × [5 × (13 × 13 × 13)]</code>, i.e. ten model spaces and 21,970 cells.<br>- <strong>Level 6 — Complementary Pair.</strong> Not a new type but a <em>relationship</em>: two Level-5 structures held as complements of one another (§5.4, §8.4).</p>
+<p>Levels 4 and 5 are implemented (<code>createCollection</code>, <code>createHigherOrder</code>, with get/set, zero-check, equality, and depth concatenation). Level 6 exists as a documented pattern; no dedicated function forces the complement, and §5.4 argues that this restraint is correct.</p>
+<h3>2.4 Levels 7–9: reserved</h3>
+<p>Three levels are deliberately absent:</p>
+<p>- <strong>Level 7 — Unspecified.</strong> No type, no function. The specification forbids implementation until the mathematics is clarified.<br>- <strong>Level 8 — Complementary Line.</strong> <em>Defined in prose only</em>: a line that "spans" the two components of the Level-6 pair, with a length related to their combined dimensions. It is described but not built.<br>- <strong>Level 9 — Unspecified.</strong> Like Level 7.</p>
+<p>This refusal is a feature. A formal system that leaves holes where meaning is contested is more honest than one that fills them arbitrarily, and §5.6 treats the holes as an explicit research programme rather than an oversight.</p>
+<h3>2.5 Why 13, 5, and 2?</h3>
+<p>The default dimensions deserve scrutiny, because the model's art-historical claim rests on them.</p>
+<p><code>AGENTS.md</code>, the living specification, originally justified <code>13</code> as "the first prime in the harmonic series". That phrasing is wrong in a small but telling way: the first prime is <code>2</code>, not <code>13</code>. Correcting it yields something better. The numbers actually used are</p>
+<p>``<code><br>2  = F₃<br>5  = F₅<br>13 = F₇<br></code>`<code></p>
+<p>— every <em>other</em> Fibonacci number. Their successive ratios are</p>
+<p></code>`<code><br>13 / 5 = 2.600<br> 5 / 2 = 2.500<br>φ²     = 2.618…     (φ = 1.618…)<br></code>`<code></p>
+<p>so the sequence converges on <strong>φ²</strong>, the square of the golden ratio. The specification's intuition that the dimensions were "golden-ratio-inspired" therefore survives, but the correct justification is not "primes in a harmonic series" — it is <em>alternating Fibonacci numbers</em>, </code>F₂ₖ₊₁<code>, with ratio → φ².</p>
+<p>Three further properties are load-bearing:</p>
+<p>1. <strong></code>13<code> is prime.</strong> The </code>13 × 13 × 13<code> address space is therefore a genuine three-dimensional vector space over a field (§5.3) — not merely a Cartesian product of index sets.<br>2. <strong></code>5<code> is the number of complementary pairs in 𝔻</strong> under the involution </code>n ↦ 9 − n<code> (§5.4). The Level-4 count is thus <em>forced</em> by the value alphabet, independent of any painting.<br>3. <strong></code>2<code> is the smallest complementary pair.</strong> Level 5's count of two is the minimal expression of duality.</p>
+<p>So the dimensions are over-determined: art-historical intuition, Fibonacci structure, primeness, and the arithmetic of ten all point the same way. That over-determination is itself worth noting — it is exactly the kind of coincidence that makes an object attractive to several disciplines at once, and exactly the kind that demands suspicion (§9). The growth in cell count that these multipliers produce is plotted in Figure 5, in §5.5.</p>
+<hr>
+<h2>3. Computational realization</h2>
+<h3>3.1 Design principles</h3>
+<p>The implementation follows eight self-imposed rules, quoted from the specification and honoured in code:</p>
+<p>1. <strong>Strongly defined types</strong> — TypeScript </code>interface<code> and </code>type<code> declarations for every level.<br>2. <strong>Conceptually distinct levels</strong> — separate modules, separate function namespaces.<br>3. <strong>Zero initialization</strong> — every constructor produces a structure whose cells are all </code>0<code>.<br>4. <strong>Value validation</strong> — every value crossing a boundary is checked against </code>[0, 9]<code>.<br>5. <strong>Configurable dimensions</strong> — no default is hard-coded into the logic; defaults are parameter fallbacks only.<br>6. <strong>No implicit spatial correspondence</strong> — higher levels are <em>not</em> assumed to be physical space.<br>7. <strong>Math-independent rendering</strong> — the visualization imports the model but the model never imports the visualization.<br>8. <strong>Explicit unresolution</strong> — Levels 7 and 9 are absent by design.</p>
+<p>Rule 6 deserves emphasis, because the artwork tempts one to violate it. A </code>13 × 13 × 13<code> array <em>looks</em> like a cube of space. But nothing in the model says the third index is a spatial depth. It is a third rank of an abstract tensor. Rule 7 enforces the separation mechanically: the dependency graph is one-directional, </code>visualization → structures → validation<code>.</p>
+<h3>3.2 API surface</h3>
+<p>The public surface is a flat set of functions with disambiguating prefixes, because several levels would otherwise export identically-named symbols.</p>
+<p><tr><td>Concern</td><td>Line</td><td>Plane</td><td>Model Space</td></tr><br><tr><td>---</td><td>---</td><td>---</td><td>---</td></tr><br><tr><td>create</td><td></code>createLine<code></td><td></code>createPlane<code></td><td></code>createConfig<code></td></tr><br><tr><td>read</td><td></code>getAt<code></td><td></code>planeGetAt<code></td><td></code>modelSpaceGetAt<code></td></tr><br><tr><td>write (immutable)</td><td></code>setAt<code></td><td></code>planeSetAt<code></td><td></code>modelSpaceSetAt<code></td></tr><br><tr><td>zero test</td><td></code>lineIsZero<code></td><td></code>planeIsZero<code></td><td></code>modelSpaceIsZero<code></td></tr><br><tr><td>concatenate</td><td></code>concat<code></td><td></code>concatHoriz<code>, </code>concatVert<code></td><td></code>concatDepth<code></td></tr><br><tr><td>compare</td><td></code>equals<code></td><td></code>planeEquals<code></td><td></code>modelSpaceEquals<code></td></tr><br><tr><td>render</td><td></code>toString<code></td><td></code>planeToString<code></td><td></code>modelSpaceToString<code></td></tr></p>
+<p>Levels 4 and 5 continue the pattern with </code>getCellValueCollection<code> / </code>setCellValueCollection<code> / </code>isZeroCollection<code> / </code>collectionEquals<code> / </code>collectionConcatDepth<code>, and </code>hoIsZero<code> / </code>hoEquals<code> / </code>hoConcatDepth<code>. The naming is verbose by design: an operation's level is visible in its name, which makes cross-level mistakes loud rather than silent.</p>
+<h3>3.3 Immutability, validation, and the flat-depth trap</h3>
+<p></code>setAt<code>-family operations <strong>do not mutate</strong> their input. They deep-copy the relevant spine and return a new structure, so the original is available for comparison and the code reads as a sequence of values rather than a mutation log. This matters for Level 4 and 5, where a naive copy would alias the inner tensors; the implementation copies plane-, row-, and cell-level arrays explicitly.</p>
+<p>A subtle bug is worth recording because it is invisible in the type system. JavaScript's </code>Array.prototype.flat()<code> defaults to <strong>depth 1</strong>. The path to a raw cell is three arrays deep in a model space (</code>planes → rows → cells<code>), so validating with </code>.flat()<code> validates <em>rows</em>, not cells — and </code>validateCell<code> receives arrays, not numbers. The error surfaces only at runtime:</p>
+<p></code>`<code><br>TypeError: Cell value must be a number, got object<br></code>`<code></p>
+<p>The fix is </code>flat(2)<code> for a model space and </code>flat(3)<code> for a collection. Static types cannot see this, because </code>flat()<code> is typed as returning </code>FlatArray<..., 1>[]<code>, and the surrounding signature accepts it. The lesson — <em>flattening depth is part of the model's semantics</em> — is recorded in Appendix A.</p>
+<h3>3.4 Toolchain</h3>
+<p><tr><td>Component</td><td>Version</td><td>Note</td></tr><br><tr><td>---</td><td>---</td><td>---</td></tr><br><tr><td>TypeScript</td><td>4.9.5</td><td>pinned; later releases resolved </code>three<code>'s types unreliably in this environment</td></tr><br><tr><td>three.js</td><td>0.136.0</td><td>pinned; 0.187.x ships as ESM and breaks </code>require()<code> under CommonJS</td></tr><br><tr><td>@types/three</td><td>0.136.0</td><td>pinned to match the runtime library</td></tr><br><tr><td>Module</td><td>CommonJS</td><td></code>target: es2020<code>, </code>strict: true<code>, </code>outDir: dist<code></td></tr></p>
+<p>The pins are not stylistic. three.js changed its module format mid-series; against a CommonJS host, </code>require('three')<code> throws </code>ERR_REQUIRE_ESM<code> on recent builds. Pinning is the correct fix for a project that intends to be <em>runnable</em> rather than merely <em>described</em>.</p>
+<hr>
+<h2>4. The visual language</h2>
+<h3>4.1 From value to appearance</h3>
+<p>Cell values are mapped to appearance along four channels: <strong>colour</strong> (hue per digit), <strong>size</strong> (larger values → larger marks), <strong>opacity</strong> (denser values → more opaque), and <strong>position</strong> (grid index, with the tensor centred on the origin). The mapping is a lookup table, not a formula, and it is deliberately documented as <em>implementation-defined</em>:</p>
+<p><tr><td>Value</td><td>Hex</td><td>Name</td><td>Association</td></tr><br><tr><td>---</td><td>---</td><td>---</td><td>---</td></tr><br><tr><td>0</td><td></code>#0a0a0a<code></td><td>near-black</td><td>void / ground</td></tr><br><tr><td>1</td><td></code>#ffd600<code></td><td>yellow</td><td>first light</td></tr><br><tr><td>2</td><td></code>#219a9d<code></td><td>teal</td><td>—</td></tr><br><tr><td>3</td><td></code>#e63946<code></td><td>vermilion</td><td>—</td></tr><br><tr><td>4</td><td></code>#2a9d8f<code></td><td>green</td><td>—</td></tr><br><tr><td>5</td><td></code>#9c2cbd<code></td><td>violet</td><td>axis / centre</td></tr><br><tr><td>6</td><td></code>#38bdf8<code></td><td>sky</td><td>—</td></tr><br><tr><td>7</td><td></code>#f472b6<code></td><td>rose</td><td>—</td></tr><br><tr><td>8</td><td></code>#ff8c42<code></td><td>orange</td><td>—</td></tr><br><tr><td>9</td><td></code>#ff5f57<code></td><td>coral</td><td>completion</td></tr></p>
+<p>!<a href="figures/fig3-palette.svg">Figure 3. The ten-value palette.</a></p>
+<p><em>Figure 3. The palette and its legend. Ordering is by digit, not by hue; the table is chosen for distinguishability plus symbolic association.</em></p>
+<p>Two choices are interpretive rather than perceptual. <strong>Value 0 is near-black</strong>, so zero-initialized structures read as empty — the default state of the model is visually a void. <strong>Value 5 is violet and value 9 is coral</strong>, marking the midpoint and the terminus. Everything else is a compromise between perceptual spacing and symbolic suggestion, and should be treated as a first draft pending study of the source painting (Caveat 1).</p>
+<h3>4.2 The rendering pipeline</h3>
+<p>The visualization module (</code>src/visualization/visualization.ts<code>) provides:</p>
+<p>- </code>afKlintColors<code> — the palette as integers;<br>- </code>getColorForValue<code> / </code>getColorHex<code> — palette accessors;<br>- </code>getDefaultModelSpace<code> — a zero-initialized </code>13³<code> tensor for demos;<br>- </code>createScene<code> — camera, ambient and directional lights, and one mesh per cell, sized by value;<br>- </code>createPointCloud<code> — a </code>THREE.Points<code> cloud with per-vertex colour, cheaper than one mesh per cell at 2,197 cells;<br>- </code>animate<code> — a placeholder for orbit-driven rotation;<br>- </code>Visualization<code> — a small namespace exposing </code>CellVisualProps<code>, the value → {position, colour, opacity, size} contract.</p>
+<p>The pipeline is staged deliberately, following the specification's plan:</p>
+<p>1. <strong>2a — point cloud.</strong> Each cell is a coloured point. <em>Implemented.</em><br>2. <strong>2b — adjacency lines.</strong> Connect neighbouring cells to expose tensor structure. <em>Pending.</em><br>3. <strong>2c — surfaces.</strong> Spheres or faces per cell. <em>Implemented in </code>createScene<code>, not yet benchmarked at full scale.</em><br>4. <strong>2d — interaction.</strong> Orbit controls, zoom, value toggles. <em>Scaffolded, not wired.</em><br>5. <strong>2e — palette refinement.</strong> Re-derive colours from the painting. <em>Pending Caveat 1.</em></p>
+<p>The important architectural fact is negative: the model knows nothing about any of this. </code>src/structures<code> does not import </code>three<code>. A reader who never runs the renderer still has a complete formal object.</p>
+<hr>
+<h2>5. Mathematical readings</h2>
+<h3>5.1 The value alphabet as ℤ₁₀</h3>
+<p>The cells range over </code>𝔻 = {0,…,9}<code>, which is naturally the ring <strong>ℤ/10ℤ</strong>. Working modulo 10 is not exotic — it is decimal arithmetic — but its structure is informative:</p>
+<p>- <strong>Units:</strong> </code>{1, 3, 7, 9}<code> — exactly the digits coprime to 10, with </code>φ(10) = 4<code> of them. These admit inverses mod 10, so <em>multiplication is reversible only for the odd non-multiples of five</em>.<br>- <strong>Idempotents:</strong> </code>0, 1, 5, 6<code>, since </code>5² = 25 ≡ 5<code> and </code>6² = 36 ≡ 6<code>. The value <strong>5 sits at the self-mirroring centre of the alphabet</strong>.<br>- <strong>Zero divisors:</strong> </code>5<code> is not a unit, because </code>2 × 5 = 10 ≡ 0<code>. The "middle" digit is precisely the one that annihilates the difference between </code>2<code> and nothing.</p>
+<p>That three of the model's structural constants — the central value </code>5<code>, the Level-4 count </code>5<code>, and the prime factor </code>5<code> of the Level-5 total </code>21,970 = 2 × 5 × 13³<code> — coincide is a reminder that "5" in this system is doing several jobs at once.</p>
+<p>The Chinese remainder theorem gives the decomposition</p>
+<p></code>`<code><br>ℤ₁₀  ≅  ℤ₂ × ℤ₅,<br></code>`<code></p>
+<p>so every cell is equivalently a <em>pair</em> (a parity bit, a value mod 5). This is the cheapest possible non-trivial factorisation of a digit, and it suggests — without requiring — that the model is intrinsically binary/complementary at the same time as being five-fold: a structure with <strong>duality and pentadicity woven into its arithmetic</strong> (compare §7.3, §8.4).</p>
+<h3>5.2 The hierarchy as nested tensors</h3>
+<p>Level 3 is a rank-3 array, i.e. a tensor </code>M ∈ 𝔻^(13×13×13)<code>, an element of a 2,197-dimensional index set over a ten-element alphabet. Level 4 is </code>𝒞 = (M₁,…,M₅)<code>, a length-5 tuple of such tensors, i.e. a rank-4 object (a stack of tensors). Level 5 is a rank-5 object (a stack of stacks). The model is therefore a <em>staircase of tensor ranks</em>, and the natural operations are tensor contractions: equality is a full contraction test; depth concatenation is concatenation along the outermost mode; the zero-check is a norm test </code>‖M‖₀ = 0<code>.</p>
+<p>Formally, writing the levels as a family,</p>
+<p></code>`<code><br>L₁ = 𝔻¹³<br>L₂ = (L₁)¹³<br>L₃ = (L₂)¹³<br>L₄ = (L₃)⁵<br>L₅ = (L₄)²<br></code>`<code></p>
+<p>so </code>Lₙ₊₁ = Lₙ^{kₙ}<code> with multipliers </code>k = (13, 13, 5, 2, …)<code>. The whole object is a <em>mixed-radix digit expansion</em> of a single enormous index into 21,970 symbol positions. Cardinalities:</p>
+<p></code>`<code><br>|L₁| =        13<br>|L₂| =       169  = 13²<br>|L₃| =     2,197  = 13³<br>|L₄| =    10,985  = 5 · 13³<br>|L₅| =    21,970  = 2 · 5 · 13³<br>|L₆| =    43,940  = 2² · 5 · 13³   (a pair of L₅)<br></code>`<code></p>
+<p>The total number of cells across all realized levels is </code>13 + 169 + 2,197 + 10,985 + 21,970 = 35,334<code>, and the Level-6 complement adds a further 21,970.</p>
+<h3>5.3 The address space is 𝔽₁₃³ — and that is worth something</h3>
+<p>Because </code>13<code> is prime, the index space </code>𝔽₁₃³<code> (indices mod 13) is not merely a grid: it is a <strong>three-dimensional vector space over the field with 13 elements</strong>. This unlocks real structure.</p>
+<p>- <strong>Linear algebra applies.</strong> The invertible linear maps of the cube onto itself form the general linear group </code>GL(3, 13)<code>, of order<br>  </code>`<code><br>  |GL(3,13)| = (13³−1)(13³−13)(13³−13²)<br>             = 2196 · 2184 · 2028<br>             = 9,726,417,792  ≈ 9.73 × 10⁹.<br>  </code>`<code><br>  So the model space has nearly ten billion linear symmetries <em>of its addressing</em>, independent of its contents.<br>- <strong>Fourier analysis applies.</strong> Over </code>𝔽₁₃<code> there are well-defined discrete Fourier transforms using 13th roots of unity. "Harmonic" in the specification can thus be given a precise meaning: a spectral decomposition of a cell function on the 13³ grid, with exactly 13 frequencies per axis. This is the mathematically defensible sense in which the structure is "harmonic" — and it is a different sense from the golden-ratio one in §2.5. Both are true; they should not be conflated.<br>- <strong>Sampling is finite and exact.</strong> A function on </code>𝔽₁₃³<code> is determined by 2,197 samples and no aliasing is possible, because the field is finite.</p>
+<p>None of this requires any physical interpretation. It is the pure mathematics of the chosen modulus, and it is perhaps the strongest single argument that </code>13<code> was a good choice: it makes the <em>container</em> algebraically rich, not merely large.</p>
+<h3>5.4 The complement involution: where 5 pairs come from</h3>
+<p>Define </code>κ : 𝔻 → 𝔻<code> by</p>
+<p></code>`<code><br>κ(n) = 9 − n.<br></code>`<code></p>
+<p>Then </code>κ(κ(n)) = n<code>, so </code>κ<code> is an <strong>involution</strong>. It has <em>no fixed point</em>: </code>9 − n = n<code> would force </code>n = 4.5<code>, which is not an integer. A fixed-point-free involution on a set of size 10 therefore partitions </code>𝔻<code> into exactly</p>
+<p></code>`<code><br>{0,9}  {1,8}  {2,7}  {3,6}  {4,5}<br></code>`<code></p>
+<p>— <strong>five complementary pairs.</strong> This is not a design preference; it is a theorem about ten values. And it independently reproduces the Level-4 default count of five. The model's "series of five" is thus doubly grounded: in af Klint's working habits (§7.3) <em>and</em> in the arithmetic of the alphabet.</p>
+<p>There is a second, subtler reading of </code>κ<code>. Modulo <strong>9</strong>, we have </code>9 ≡ 0<code>, so </code>κ(n) = 9 − n ≡ −n<code>. The complement is negation in ℤ₉. Under this view the digits </code>1…9<code> form the cyclic group ℤ₉, and <strong></code>9<code> plays the double role of "completion" and of "zero"</strong>: casting out nines is the operation that identifies them. This is precisely the numerical-reduction ("digital root") habit long associated with numerological traditions (§8.2), and here it emerges as ordinary modular arithmetic — a clean case of a metaphysical trope coinciding with a mathematical identity.</p>
+<p>Finally, note what the <em>implementation</em> does and does not do with </code>κ<code>. It provides no function that forces Level-6 components to be complements. That restraint is correct: </code>κ<code> is a property of the value alphabet, not of any particular tensor, and applying it to a <em>rendered scene</em> would be an editorial choice, not a derivation.</p>
+<p>!<a href="figures/fig4-complement.svg">Figure 4. Two Level-5 structures related by the complement involution.</a></p>
+<p><em>Figure 4. Level 6 as a complement relationship. The code guarantees the numerical involution </code>n ↦ 9 − n<code>; whether it should govern the picture is left open.</em></p>
+<h3>5.5 Information content</h3>
+<p>Treating a structure as equiprobable over its state space gives concrete bookkeeping. A single cell carries </code>log₂ 10 ≈ 3.3219<code> bits. Then:</p>
+<p><tr><td>Structure</td><td>Cells</td><td>Address bits</td><td>Content bits (uniform)</td></tr><br><tr><td>---</td><td>---</td><td>---</td><td>---</td></tr><br><tr><td>Line (13)</td><td>13</td><td>3.70</td><td>43.2</td></tr><br><tr><td>Plane (13²)</td><td>169</td><td>7.40</td><td>561.4</td></tr><br><tr><td>Model Space (13³)</td><td>2,197</td><td>11.10</td><td>7,298.3</td></tr><br><tr><td>Collection (L4)</td><td>10,985</td><td>13.42</td><td>36,491.3</td></tr><br><tr><td>Higher order (L5)</td><td>21,970</td><td>14.42</td><td>72,982.5</td></tr></p>
+<p>!<a href="figures/fig5-cardinality.svg">Figure 5. Cardinality growth by level.</a></p>
+<p><em>Figure 5. Cell counts by level, on a logarithmic height. Each step multiplies by 13, 13, 5, 2, 2.</em></p>
+<p>Two facts are usefully deflationary. First, a model-space <em>address</em> needs only 11.10 bits, so it fits comfortably in a 12-bit field (</code>2197 < 4096<code>). Second, the entire Level-5 content has three sizes worth distinguishing:</p>
+<p><tr><td>Encoding of Level 5</td><td>Size</td></tr><br><tr><td>---</td><td>---</td></tr><br><tr><td>Information-theoretic floor (72,982.5 bits ÷ 8)</td><td>9,123 B ≈ <strong>8.9 KiB</strong></td></tr><br><tr><td>One byte per digit (as written in JS </code>number<code>s, 8 B each, it is far larger)</td><td>21,970 B ≈ <strong>21.4 KiB</strong></td></tr><br><tr><td>Two digits per byte (4-bit nibbles, tightly packed)</td><td>10,985 B ≈ <strong>10.7 KiB</strong></td></tr></p>
+<p>So a structure that <em>feels</em> cosmic — </code>10^21,970<code> states — is, at the level of representation, the size of a small text file. The gulf between state-space size and encoding size is a good antidote to mystification.</p>
+<h3>5.6 Open mathematical questions</h3>
+<p>- <strong>What is Level 7?</strong> The specification refuses it. A principled candidate would be the natural <em>type constructor</em> that closes the tower: e.g. a functor on the category whose objects are the levels, so that "next level" is itself an object — a fixed point of the hierarchy. Without a semantic role, any choice is arbitrary, which is exactly why the reserve is correct.<br>- <strong>What is Level 8?</strong> A "line spanning the pair" suggests, mathematically, a <em>bundle</em>: a base (the complement axis), a fibre (the line), and a section (the selection that pairs cells). If Level 8 is to be built, the honest formalisation is a fibration, not an array.<br>- <strong>What is Level 9?</strong> Undefined, and the paper declines to invent meaning for it.</p>
+<p>These are statements of <em>under-determination</em>, not of ignorance: the model has reached the edge of what the artwork-plus-arithmetic can license.</p>
+<hr>
+<h2>6. Physical readings</h2>
+<p>Nothing here should be mistaken for a physical theory (§1.3, Caveat 2). The model has no action, no Hamiltonian, no time. What it does have is a <em>configuration space</em>, and configuration spaces are exactly what statistical and lattice physics study. Three readings follow, in increasing order of speculation.</p>
+<h3>6.1 A quantized scalar field on a finite lattice</h3>
+<p>Read the model space as a lattice </code>Λ = 𝔽₁₃³<code> with a field </code>φ : Λ → 𝔻<code> whose values are quantized to ten levels. This is a <em>discrete, bounded scalar field</em>: exactly the kind of object that appears in lattice field theory, spin models, and Potts-type systems, where the field takes one of </code>q<code> values per site. Here </code>q = 10<code> and </code>|Λ| = 2,197<code>. If one supplies an interaction — say a nearest-neighbour energy favouring equal neighbours — the partition function</p>
+<p></code>`<code><br>Z = Σ_{φ ∈ 𝔻^Λ}  exp( −β Σ_{⟨x,y⟩}  δ(φ(x), φ(y)) )<br></code>`<code></p>
+<p>is the ten-state Potts model on a 13³ torus. <strong>The model does not define this energy; a physicist could.</strong> That is the precise sense in which the object is "physics-ready but not physics".</p>
+<p>Two features of the fitting are notable. Because </code>13<code> is prime, </code>Λ<code> is a vector space (§5.3), so the natural boundary condition is a <em>torus</em> and translation invariance is exact. And because </code>𝔻<code> is ℤ₁₀ rather than a field, the "colour" of the Potts model is a ring element — a small but genuine deviation from the textbook model.</p>
+<h3>6.2 A ℤ₁₀ lattice gauge configuration space</h3>
+<p>The most suggestive physical reading uses the <em>links</em>, not the sites. If a cell value is assigned to each oriented edge of the lattice rather than to each vertex, one obtains a configuration of a <strong>ℤ_N lattice gauge theory</strong> with </code>N = 10<code>. Such theories are well studied: they have topological sectors, and on a three-torus the ground-state degeneracy of the corresponding gauge theory counts as </code>N³ = 10³ = 1000<code> — a concrete, checkable number that the model's own alphabet and lattice rank would produce. The point is not that the Cosmic Block <em>is</em> a gauge theory; it is that the model's data — a rank-3 lattice over a </code>ℤ_N<code> alphabet — sits squarely in the regime where these structures are defined, so a physical reading is available rather than forced.</p>
+<p>A more speculative echo: the model's Level-4 and Level-5 counts are coarse-graining factors, and in physics the passage from a fine lattice to a coarse one is <strong>renormalization</strong>. The staircase </code>13³ → 5 → 2<code> can be read as a blocked description in which five fine model spaces are summarised by one collection, and two collections by one higher-order object. Whether that resembles any real renormalization group flow is an open question — but the <em>shape</em> of the analogy (a hierarchy of scales with small integer multiplicities) is the shape physicists use.</p>
+<h3>6.3 Symmetry breaking and complementarity</h3>
+<p>The complement involution </code>κ<code> (§5.4) is a symmetry of the value alphabet. It is natural to ask which field configurations are invariant under it: configurations </code>φ<code> with </code>φ(x) = 9 − φ(x)<code> for all </code>x<code> — i.e. the all-</code>4.5<code> field, which is impossible, since </code>4.5 ∉ 𝔻<code>. So <strong>no configuration is globally κ-symmetric</strong>. Any physical reading of complementarity therefore <em>breaks</em> the symmetry spontaneously: the model cannot be its own complement, which is a compact formal statement of a duality that cannot be resolved into identity (compare §8.4).</p>
+<h3>6.4 Where the physics stops</h3>
+<p>- <strong>No dynamics:</strong> nothing evolves, so no conservation law is available to test.<br>- <strong>No metric:</strong> the lattice has adjacency but no distances, so no dispersion relation can be written.<br>- <strong>No coupling constants:</strong> </code>β<code> above is imported by the reader, not present in the model.<br>- <strong>Falsifiability:</strong> a physical <em>claim</em> would require an observable and a prediction. This paper makes neither. It claims only that the configuration space is of a kind physics knows how to use.</p>
+<hr>
+<h2>7. Art-historical readings</h2>
+<h3>7.1 Hilma af Klint in context</h3>
+<p>Hilma af Klint (1862–1944) trained at the Royal Academy of Fine Arts in Stockholm and worked as a conventional landscape and portrait painter before her abstract work began. From 1896 she was a member of a group of five women, <em>De Fem</em> ("The Five"), who conducted séances and recorded messages from a set of "high masters"; one, <em>Amaliel</em>, is reported to have commissioned the sequence now known as <strong><em>The Paintings for the Temple</strong></em> (1906–1915), some 193 works. Within it, <strong><em>The Ten Largest</strong></em> (1907) consists of ten monumental canvases (~3.2 × 2.4 m) organised by stages of life; the later groups include the swan cycle, <strong>Group IX/UW–SUW</strong> (1914–15), and the three <strong>Altarpieces</strong> (1915). Af Klint filled more than a thousand pages of notebooks and left a stipulation that these works not be exhibited for decades after her death — a condition that kept the paintings largely unseen until the 1980s and made her, in retrospect, the most radical overlooked figure of early abstraction.</p>
+<p>The scholarly literature that re-established her includes Sixten Ringbom's <em>The Sounding Cosmos</em> (1970), which tied early abstraction to Theosophy; Iris Müller-Westermann's <em>Hilma af Klint: A Pioneer of Abstraction</em> (2013, Moderna Museet); the Guggenheim's <em>Hilma af Klint: Paintings for the Future</em> (2018, ed. Tracey Bashkoff), which became the museum's most-attended show; and <em>Hilma af Klint: The Art of Seeing the Invisible</em> (2021).</p>
+<h3>7.2 The formal devices</h3>
+<p>Six of af Klint's devices recur throughout the <em>Paintings for the Temple</em>, and each has a counterpart in the model:</p>
+<p><tr><td>Af Klint's device</td><td>Model mechanism</td><td>Formal name</td></tr><br><tr><td>---</td><td>---</td><td>---</td></tr><br><tr><td>Grid / cell structure</td><td>the </code>13³<code> tensor</td><td>Cartesian product</td></tr><br><tr><td>Series and repetition</td><td>Levels 4–5 as arrays of variants</td><td>tuple / stack</td></tr><br><tr><td>Symmetry and mirroring</td><td>index symmetries; </code>GL(3,13)<code></td><td>group action</td></tr><br><tr><td>Complementary pair</td><td>Level 6 via </code>κ(n) = 9 − n<code></td><td>involution</td></tr><br><tr><td>Symbolic colour</td><td>the value → colour table</td><td>lookup function</td></tr><br><tr><td>Diagrammatic letter-codes</td><td>the </code>toString<code> / state representation</td><td>serialisation</td></tr></p>
+<p>The correspondence is structural, not pictorial. The model does not copy a painting; it copies a <em>logic of arrangement</em> that the painting shares with diagrams, charts, and musical notation. This is what makes the translation legible: af Klint's sequences are countable, her grids are indexable, and her pairs are involution-like — precisely the features a data structure is good at holding.</p>
+<h3>7.3 "A series of five" — where the count comes from</h3>
+<p>The default Level-4 count of five is the model's most art-historically motivated choice, and it has two independent supports. Historically, <em>De Fem</em> was a group of five and af Klint organised much of her output in groups and sequences of five or into fives-within-groups. Formally, five is <em>forced</em> by the alphabet (§5.4): a fixed-point-free involution on ten elements has five orbits. The agreement between a working habit and an arithmetic identity is exactly the kind of coincidence this paper flags rather than exploits (§9). It does not license the claim that af Klint "knew" the arithmetic; it licenses only the modest claim that a five-fold series is a natural way to hold ten symbolic values.</p>
+<h3>7.4 Why a computational restitution is legitimate — and its limits</h3>
+<p>Reconstructing a painting as a data structure risks two errors. The <strong>anachronistic error</strong> is to attribute to the artist a computational intent she could not have had; af Klint's "sequences" were ritual and visionary, not algorithmic. The <strong>reductive error</strong> is to treat the structure as a <em>translation</em> of the painting, when it is at best a <em>model of one aspect</em> of it.</p>
+<p>The defensible position is that the model is a <strong>formal analogue</strong>, in the sense in which a grammar is a formal analogue of speech: it captures arrangement and none of the affect. Two of af Klint's most important features are simply <em>not present</em> in the model: her <strong>scale</strong> (the paintings are bodies, not grids — <em>The Ten Largest</em> envelop a viewer physically) and her <strong>hand</strong> (irregular, devotional mark-making). A 13³ point cloud has neither. The model should therefore be presented as a <em>skeleton chart</em> of af Klint's compositional logic — useful precisely because it is impoverished, stripping away everything except sequence, symmetry, and pair.</p>
+<p>A further honesty point belongs here. The model's own default dimensions were <strong>not read from a painting</strong> (Caveat 1). The art-historical reading in this section is therefore <em>retrospective</em>: it explains why the chosen numbers are plausible, not why they are <em>correct</em>. Correctness would require a human with the painting in view to derive the proportions and compare.</p>
+<hr>
+<h2>8. Spiritual-scientific readings</h2>
+<h3>8.1 The tradition and the term</h3>
+<p>"Spiritual science" is the English rendering of <em>Geisteswissenschaft</em>, the term Rudolf Steiner adopted for <strong>anthroposophy</strong>, his reworking of Theosophy. Steiner's <em>Theosophy: An Introduction to the Spiritual Processes in Human Life and in the Cosmos</em> (1904) describes a cosmos organised into nested <em>planes</em> or <em>worlds</em> — physical, etheric, astral, and higher — through which a developing human being passes. This is the lineage within which af Klint worked: Theosophy (Blavatsky's <em>The Secret Doctrine</em>, 1888) supplied a doctrine of hidden hierarchies and correspondences, and af Klint's notebooks record her sense of painting under instruction from discarnate "masters".</p>
+<p>Crucially for this paper, the tradition has a <strong>graphic</strong> side. In <em>Thought-Forms</em> (1901), Annie Besant and Charles Leadbeater presented "clairvoyant" diagrams in which states of mind and emotion appear as <strong>coloured forms</strong> — swirling, graded, and paired. Whatever one thinks of the claim, the book is a document of the era's conviction that <em>inner states have colours and shapes</em>. That conviction is the direct ancestor of any "value → colour" mapping, including the one in §4.</p>
+<h3>8.2 Numerological resonances — stated with suspicion</h3>
+<p>Three numbers in the model have occult pedigrees, and honesty requires naming them <em>as</em> pedigrees rather than as evidence.</p>
+<p>- <strong>2</strong> — the complementary pair; in Theosophical and Hermetic writing, the polarity of spirit and matter, of emissive and receptive. Formally, 2 is the smallest pair and the factorised half of ℤ₁₀ (§5.1).<br>- <strong>5</strong> — the pentad; in Theosophical texts, the number of "planes" and of the senses, and, in the model's own arithmetic, the number of complementary pairs (§5.4) and of model spaces per collection.<br>- <strong>13</strong> — long freighted in Western numerology (twelve-plus-one, the lunar count, the number of participants at a discredited last supper). In the model it is <em>also</em> F₇ (§2.5) and the prime that makes the address space a field (§5.3).</p>
+<p>The pattern is worth naming plainly: <strong>every number here has both an occult and an arithmetic justification, and the two are not the same justification.</strong> A numerology asserts significance; a theorem derives a property. The fact that they coincide is interesting; the fact that they are <em>different kinds of claim</em> is essential. This paper's position is that the arithmetic is load-bearing and the numerology is illustrative.</p>
+<h3>8.3 "Levels" as planes — a metaphor with a trap</h3>
+<p>It is tempting to read the model's Level 1–9 as the Theosophical planes of existence. The temptation should be resisted, for a precise reason. The model's levels are <strong>type constructors</strong>: a plane is an array of lines, full stop. They differ in <em>rank</em>, not in <em>subtlety</em>. Theosophical planes, by contrast, are supposed to differ in <em>kind of substance and kind of consciousness</em>, and are ordered by refinement, not by array nesting. Mapping one onto the other conflates two different orderings — a cardinality ordering (how many cells) with an ontological ordering (how fine the stuff is).</p>
+<p>The useful residue after dropping the trap is this: both the model and the tradition use <strong>nesting</strong> as their organising figure. Nesting is the shared shape; the contents are not.</p>
+<h3>8.4 Complementarity as a spiritual principle — and its formal failure</h3>
+<p>Af Klint's dual themes (the swan, the androgyne, the paired panels) resonate with the model's Level-6 complement. What is remarkable is that the mathematics <em>refuses</em> to let the two halves collapse into one another. As §6.3 showed, no configuration of the model is invariant under </code>κ<code>, because </code>κ<code> has no fixed point on </code>𝔻<code>. Complementarity in this system is therefore <strong>necessarily asymmetric</strong>: the pair cannot be resolved into identity. One may read that either as the formal signature of a doctrine that opposites genuinely differ, or as a caution against doctrines that promise their reconciliation. Either way, the mathematical fact — fixed-point-free involution — is not a metaphor; the reading is.</p>
+<h3>8.5 The epistemics of "spiritual science"</h3>
+<p>Two clarifications protect this section from overreach.</p>
+<p>1. <strong>Emic versus etic.</strong> This paper is <em>etic</em> about spiritual science: it reports what the tradition claims and what it produced. It does not adopt its methods and does not assert its results. Steiner's "spiritual science" is a self-description, and the phrase should never be read as a claim to have replaced empirical science.<br>2. <strong>A historical precedent for the risk.</strong> The most famous attempt to join this tradition to physics was the Pauli–Jung dialogue of the 1950s on "synchronicity", in which a physicist and a psychologist tried to make a shared object of acausal order. It is remembered as fertile and unresolved. The Cosmic Block sits in the same zone: a formal object whose interest across disciplines is genuine, and whose claim on any one of them is partial.</p>
+<p>The honest summary of §8 is: the model <em>echoes</em> the spiritual-scientific imagination — in its nested planes, its symbolic colours, its unresolved pairs — and is <em>not</em> evidence for it. An echo is a real thing; it is just not a proof.</p>
+<hr>
+<h2>9. Discussion: an interdisciplinary boundary object</h2>
+<h3>9.1 One object, four vocabularies</h3>
+<p>The table below is the paper's central claim in miniature: the same construction, described four ways, with the <em>strength of the claim</em> marked.</p>
+<p><tr><td>The object</td><td>Mathematics</td><td>Physics</td><td>Art history</td><td>Spiritual science</td></tr><br><tr><td>---</td><td>---</td><td>---</td><td>---</td><td>---</td></tr><br><tr><td>Cell </code>w ∈ 𝔻<code></td><td>element of ℤ₁₀</td><td>quantized field value</td><td>a colour unit</td><td>a symbolic degree</td></tr><br><tr><td></code>13³<code> tensor</td><td>ℤ₁₀-valued rank-3 array; index space </code>𝔽₁₃³<code></td><td>scalar field on a torus</td><td>the grid</td><td>a plane of manifestation</td></tr><br><tr><td>Collection of 5</td><td>fives orbits of </code>κ<code></td><td>coarse-graining factor</td><td><em>De Fem</em>; series of five</td><td>the pentad</td></tr><br><tr><td>Higher order of 2</td><td>nested stacks</td><td>blocking factor</td><td>diptych</td><td>polarity</td></tr><br><tr><td></code>n ↦ 9 − n<code></td><td>fixed-point-free involution</td><td>symmetry breaking</td><td>complementary pair</td><td>union of opposites</td></tr><br><tr><td>Relation strength</td><td><strong>strong</strong> (theorems)</td><td><strong>medium</strong> (available, not asserted)</td><td><strong>medium</strong> (analogy)</td><td><strong>weak/illustrative</strong></td></tr></p>
+<p>Star and Griesemer (1989) introduced the <em>boundary object</em> to describe artefacts that different communities can use without agreeing on meaning. The Cosmic Block is one: the mathematician can prove things about it, the physicist can place it in a configuration space, the art historian can compare its devices, and a reader in the spiritual-scientific tradition can recognise its echo — while none is obliged to accept the others' reading. The object is the <em>interface</em>, and this paper is an account of the interface.</p>
+<h3>9.2 Where interdisciplinarity breaks down</h3>
+<p>The boundary is not seamless, and the paper's credibility depends on saying where it tears.</p>
+<p>- <strong>Meaning is not transportable.</strong> </code>κ<code> is a theorem for the mathematician and a trope for the spiritual reader. Calling both "complementarity" hides that the first is derivable and the second is interpretive.<br>- <strong>Evidence is not shared.</strong> The art-historical claim rests on documents and artworks; the mathematical claim rests on proof; the physical claim, when made, would rest on prediction. The model cannot substitute one for another.<br>- <strong>The temptation to inflate.</strong> Over-determination (§2.5) — the way 5 and 13 and 2 all "work" — is precisely the condition under which disciplines start borrowing authority from each other. The correct response is to keep each claim in its own column, as the table above does.</p>
+<h3>9.3 The value of building it</h3>
+<p>Why build a structure with three unimplemented levels and a rendering pipeline that half-works? Because the <em>act of construction</em> is itself an argument. A hierarchy that is loosely described can carry any reading; a hierarchy that compiles, validates, and refuses out-of-range values <strong>constrains</strong> its readings. When the software declines to accept </code>10<code> as a cell value, it is asserting that the model is decimal; when it declines to force Level-6 complementarity, it is asserting that the pairing is a relationship, not a type. Building the thing is how the claims were tested against each other. The build failures (Appendix A) are part of the evidence.</p>
+<hr>
+<h2>10. Conclusion and future work</h2>
+<p>The Cosmic Block is a small formal system: ten values, three realized nesting levels, two higher ones, and an explicit blank where three more are reserved. Built to give precise form to an intuition drawn from a Hilma af Klint painting, it turns out to be genuinely rich — a rank-3 tensor over ℤ₁₀ whose index space is the field </code>𝔽₁₃³<code>, whose alphabet admits a fixed-point-free complement involution partitioning it into five pairs, and whose entire Level-5 content occupies under 11 KiB. Those are mathematical facts, not decorations. Around them, the paper has assembled four readings at four levels of strength, and has argued that the object is best understood as a boundary object among them.</p>
+<p>Its limits are as important as its contents. The painting was never measured; the defaults are assumptions. Levels 7–9 are deliberately unimplemented. The model has no dynamics, so its physical reading is a configuration space, not a theory. Its spiritual reading is an echo, not an argument. Its art-historical reading is a structural analogy that deliberately strips away scale and hand.</p>
+<p>Future work follows directly from each limit:</p>
+<p>1. <strong>Measure the painting.</strong> A human study deriving the actual proportions, then re-parameterising the defaults — the single change that would convert assumption into evidence.<br>2. <strong>Build a test suite.</strong> Promote the ad-hoc verification into a versioned suite so the claims in Appendix A are reproducible.<br>3. <strong>Wire the interaction.</strong> Orbit controls, value toggles, and a legend so the renderer becomes an instrument rather than a screenshot generator.<br>4. <strong>Give Level 8 a formalism.</strong> If the "complementary line" is to exist, build it as a fibration (§5.6), not an array.<br>5. <strong>Keep Level 7 and 9 empty</strong> until a semantic role appears. Their emptiness is the model's integrity.</p>
+<p>The Cosmic Block's final claim is modest and, the authors submit, correct: a structure can be shared by mathematics, physics, art history, and spiritual science <em>without being owned by any of them</em>, provided each discipline states what kind of claim it is making. The model is the meeting place, and the caveats are the house rules.</p>
+<hr>
+<h2>Appendix A: Methodological appendix — what was actually verified</h2>
+<p>This appendix records the verification performed, so that claims can be checked and limits seen. It is written from the build log, not from memory of intent.</p>
+<h3>A.1 Build</h3>
+<p>- Command: </code>./node_modules/.bin/tsc --project tsconfig.json<code><br>- Result: <strong>exit 0, no diagnostics</strong>, with </code>strict: true<code>, </code>target: es2020<code>, </code>module: commonjs<code>.<br>- Output: </code>dist/<code> containing compiled JS for all modules.</p>
+<p>The build initially failed. Recorded defects and their fixes:</p>
+<p><tr><td>#</td><td>Defect</td><td>Fix</td></tr><br><tr><td>---</td><td>---</td><td>---</td></tr><br><tr><td>1</td><td>Collection modules imported </code>'../validation/cell-validator'<code> (one level too shallow)</td><td>corrected to </code>'../../validation/cell-validator'<code></td></tr><br><tr><td>2</td><td></code>collection-higher-order<code> used collection-level helpers without importing them</td><td>added the missing imports</td></tr><br><tr><td>3</td><td></code>collectionEquals<code> passed single model spaces to collection-level dimension helpers</td><td>used </code>getPlanes<code>/</code>getRows3D<code>/</code>getCols3D<code> directly</td></tr><br><tr><td>4</td><td></code>getCellValueCollection<code> called an unimported </code>getAt<code></td><td>imported the model-space accessor</td></tr><br><tr><td>5</td><td></code>flat()<code> used where </code>flat(2)<code>/</code>flat(3)<code> was required</td><td>corrected flattening depth</td></tr><br><tr><td>6</td><td>A typo in </code>setAt<code> for model spaces (</code>newPlane.map<code> on an undefined binding)</td><td>rewrote the copy path</td></tr></p>
+<h3>A.2 Runtime checks</h3>
+<p>Verified by direct execution against </code>dist/<code> (reproducible with </code>node tools/verify.js<code>):</p>
+<p><tr><td>Check</td><td>Observed</td></tr><br><tr><td>---</td><td>---</td></tr><br><tr><td></code>createLine()<code> default length</td><td>13</td></tr><br><tr><td></code>createPlane()<code> default shape</td><td>13 × 13</td></tr><br><tr><td></code>createConfig()<code> default shape</td><td>13 × 13 × 13</td></tr><br><tr><td></code>createCollectionModelSpaces({count:5,planes:3,rows:3,cols:3})<code> → count</td><td>5</td></tr><br><tr><td>Level-4 zero test on a fresh collection</td><td></code>true<code></td></tr><br><tr><td>Level-4 dimension readout</td><td>planes 3, rows 3, cols 3</td></tr><br><tr><td></code>setCellValueCollection(coll, 2, 1, 1, 1, 7)<code> then read-back</td><td>7</td></tr><br><tr><td></code>collectionEquals(original, modified)<code></td><td></code>false<code> (immutability confirmed)</td></tr><br><tr><td></code>createHigherOrder({count:2,collectionCount:5,planes:3,rows:3,cols:3})<code> → count</td><td>2</td></tr><br><tr><td>Level-5 zero test on a fresh structure</td><td></code>true<code></td></tr><br><tr><td></code>hoToString(...)<code></td><td></code>HigherOrderCollection(count=2, collectionCount=5, planes=3, rows=3, cols=3)<code></td></tr><br><tr><td></code>getColorHex(0)<code> / </code>getColorHex(9)<code></td><td></code>#0a0a0a<code> / </code>#ff5f57<code></td></tr><br><tr><td></code>validateCell(5)<code></td><td>ok</td></tr><br><tr><td></code>validateCell(10)<code></td><td>throws </code>RangeError<code></td></tr></p>
+<p>Earlier sessions additionally verified: get/set at all three core levels; </code>concat<code>, </code>concatHoriz<code>, </code>concatVert<code>, </code>concatDepth<code>; </code>equals<code> at each level; </code>fromValues<code>; and that </code>setAt<code> does not mutate its input.</p>
+<h3>A.3 What was <em>not</em> verified</h3>
+<p>- <strong>The renderer was never exercised headlessly.</strong> </code>createScene<code> compiles and type-checks but was not instantiated under a WebGL context in this environment. Its correctness is unverified.<br>- <strong></code>animate<code> is a stub.</strong> Orbit controls are scaffolded in comments, not wired.<br>- <strong>Levels 6–9 have no runtime coverage</strong> (6 is a pattern, 7–9 do not exist).<br>- <strong>No performance benchmarking</strong> at the full </code>13³<code> (2,197 meshes) or Level-5 (21,970 cells) scale.<br>- <strong>The source painting was never decoded</strong> (Caveat 1).</p>
+<h3>A.4 Reproducibility artifacts</h3>
+<p><tr><td>Artifact</td><td>Purpose</td></tr><br><tr><td>---</td><td>---</td></tr><br><tr><td></code>src/<em>*/</em>.ts<code></td><td>the model</td></tr><br><tr><td></code>tools/make-figures.js<code></td><td>regenerates Figures 1–5 deterministically</td></tr><br><tr><td></code>tools/serve.js<code></td><td>minimal static server for inspecting figures locally</td></tr><br><tr><td></code>tools/verify.js<code></td><td>replays the runtime checks tabulated in A.2</td></tr><br><tr><td></code>dist/<code></td><td>compiled output</td></tr><br><tr><td></code>AGENTS.md`</td><td>living specification and status</td></tr></tbody></table></p>
+<hr>
+<h2>References</h2>
+<p>1. Bashkoff, T., ed. <em>Hilma af Klint: Paintings for the Future</em>. New York: Guggenheim Museum, 2018.<br>2. Besant, A., and C. W. Leadbeater. <em>Thought-Forms</em>. London: Theosophical Publishing Society, 1901.<br>3. Blavatsky, H. P. <em>The Secret Doctrine</em>. London: Theosophical Publishing Company, 1888.<br>4. Kandinsky, W. <em>Über das Geistige in der Kunst</em> [Concerning the Spiritual in Art]. Munich: Piper, 1912.<br>5. Kolda, T. G., and B. W. Bader. "Tensor Decompositions and Applications." <em>SIAM Review</em> 51, no. 3 (2009): 455–500.<br>6. Müller-Westermann, I. <em>Hilma af Klint: A Pioneer of Abstraction</em>. Stockholm: Moderna Museet / Hatje Cantz, 2013.<br>7. Ringbom, S. <em>The Sounding Cosmos: A Study in the Spiritualism of Kandinsky and the Genesis of Abstract Painting</em>. Åbo: Åbo Akademi, 1970.<br>8. Star, S. L., and J. R. Griesemer. "Institutional Ecology, 'Translations' and Boundary Objects." <em>Social Studies of Science</em> 19, no. 3 (1989): 387–420.<br>9. Steiner, R. <em>Theosophie: Einführung in übersinnliche Welterkenntnis und Menschenbestimmung</em> [Theosophy]. Leipzig: Altmann, 1904.<br>10. Voss, J. <em>Hilma af Klint: The Art of Seeing the Invisible</em>. Boulder: Sentient, 2021.<br>11. Wilson, K. G. "The Renormalization Group and Critical Phenomena." <em>Reviews of Modern Physics</em> 55, no. 3 (1983): 583–600.<br>12. Wolfram, S. <em>A New Kind of Science</em>. Champaign, IL: Wolfram Media, 2002.<br>13. Cover, T. M., and J. A. Thomas. <em>Elements of Information Theory</em>. 2nd ed. Hoboken: Wiley, 2006.</p>
+<p><em>Note on references: entries describe real works and the scholarly literature on af Klint and its milieux; page-level citations are omitted because the present document is a design report rather than a literature review. Any interpretive claim about af Klint's intent should be checked against items 1, 6, 7 and 10.</em></p>
+
+</body>
+</html>

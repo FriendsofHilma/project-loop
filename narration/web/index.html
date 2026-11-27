@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Voice of the Ancient Storyteller — Narration Lab</title>
+<style>
+  :root {
+    --ink: #ece1cd;
+    --muted: #b7a98f;
+    --bg: #14110e;
+    --panel: #1e1915;
+    --panel2: #262019;
+    --gold: #d8a441;
+    --gold-soft: #f0cf8e;
+    --line: #4a3b2b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0 20px 80px;
+    background: radial-gradient(1200px 600px at 50% -10%, #2a2119 0%, var(--bg) 60%);
+    color: var(--ink);
+    font: 16px/1.65 Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; }
+  header { padding: 54px 0 26px; text-align: center; }
+  .eyebrow {
+    font: 600 11px/1.4 system-ui, sans-serif; letter-spacing: .28em;
+    text-transform: uppercase; color: var(--gold);
+  }
+  h1 {
+    margin: 14px 0 8px; font-size: clamp(30px, 5vw, 52px); line-height: 1.12;
+    font-weight: 400; color: var(--gold-soft);
+  }
+  .subtitle { color: var(--muted); font-style: italic; font-size: 18px; }
+  .notice {
+    margin: 26px 0 0; padding: 14px 18px; border: 1px solid var(--line);
+    border-left: 3px solid var(--gold); background: #1b1611;
+    font: 13px/1.55 system-ui, sans-serif; color: var(--muted); text-align: left;
+  }
+  h2 {
+    font-size: 26px; font-weight: 400; color: var(--gold-soft);
+    margin: 54px 0 4px; display: flex; align-items: center; gap: 14px;
+  }
+  h2::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .lede { color: var(--muted); margin: 0 0 22px; font-size: 15px; }
+  .feature {
+    background: linear-gradient(160deg, #2b2319, #1b1611);
+    border: 1px solid var(--line); border-radius: 10px; padding: 28px;
+  }
+  .feature .chapter-label {
+    display: inline-block; font: 600 11px system-ui, sans-serif; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold);
+    border-radius: 999px; padding: 4px 10px; margin-bottom: 14px;
+  }
+  .feature h3 { margin: 0 0 6px; font-size: 28px; font-weight: 400; }
+  .feature p { margin: 0 0 18px; color: var(--muted); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    padding: 20px; display: flex; flex-direction: column;
+  }
+  .card.female { background: var(--panel2); }
+  .card h3 { margin: 0 0 2px; font-size: 21px; font-weight: 400; color: var(--gold-soft); }
+  .card .tag {
+    font: 600 10px system-ui, sans-serif; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 10px;
+  }
+  .card .concept { color: var(--muted); font-size: 14px; margin: 0 0 16px; min-height: 44px; }
+  .player { display: flex; align-items: center; gap: 12px; margin-top: auto; }
+  .play {
+    flex: none; width: 42px; height: 42px; border-radius: 50%;
+    border: 1px solid var(--gold); background: transparent; color: var(--gold-soft);
+    font-size: 15px; cursor: pointer; transition: .18s;
+  }
+  .play:hover { background: var(--gold); color: #1a140e; }
+  .play.playing { background: var(--gold); color: #1a140e; }
+  .bar { position: relative; flex: 1; height: 22px; display: flex; align-items: center; }
+  .track { position: absolute; left: 0; right: 0; height: 4px; background: #4a3a29; border-radius: 3px; }
+  .fill { position: absolute; left: 0; height: 4px; width: 0; background: var(--gold); border-radius: 3px; pointer-events: none; }
+  .seek { position: relative; width: 100%; margin: 0; opacity: 0; cursor: pointer; height: 22px; }
+  .time { flex: none; font: 12px/1 ui-monospace, Consolas, monospace; color: var(--muted); width: 88px; text-align: right; }
+  .tracklist { display: grid; gap: 10px; }
+  .track-row {
+    display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center;
+    background: #1b1611; border: 1px solid var(--line); border-radius: 8px; padding: 14px 18px;
+  }
+  .track-row .name { font-size: 17px; }
+  .track-row .desc { font: 12px system-ui, sans-serif; color: var(--muted); }
+  .notes {
+    margin-top: 48px; border-top: 1px solid var(--line); padding-top: 22px;
+    font: 13px/1.7 system-ui, sans-serif; color: var(--muted);
+  }
+  .notes li { margin-bottom: 7px; }
+  code { font-family: ui-monospace, Consolas, monospace; color: var(--gold-soft); }
+  .status { font: 12px system-ui, sans-serif; color: var(--gold); min-height: 18px; margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Hilma Engineering Anomalous Research Network · Narration Lab</div>
+  <h1>The Voice of the Ancient Storyteller</h1>
+  <div class="subtitle">Audition player for <em>The Great Journey of the Soul</em></div>
+  <div class="notice">
+    <strong>Constructed-persona notice:</strong> “Tyler Kane” is a fictional research
+    persona created for this project. He is not a real person, an intelligence officer,
+    an Anthroposophical Society member, or an authority on Hilma af Klint. No author
+    voice recording has been supplied; none of these voices is a clone of the author.
+  </div>
+</header>
+
+<h2>Chapter One</h2>
+<p class="lede">Press play. The narrator is the Ancient Sage; the quotation voice reads the
+machine-translated epigraph. Both tracks are generated from the unmodified manuscript.</p>
+
+<div class="feature">
+  <span class="chapter-label">Track ready</span>
+  <h3>Before the Before</h3>
+  <p>Narrated from the exact chapter file. “Story” omits only the documentation
+  endnote; “Full” includes it. Nothing is rewritten or abridged.</p>
+  <div class="tracklist">
+    <div class="track-row">
+      <div>
+        <div class="name">Chapter 1 — Story</div>
+        <div class="desc">Narration + the Hilma epigraph, Ancient Sage voice</div>
+      </div>
+      <div class="player" data-src="output/ch01_story.wav">
+        <button class="play" aria-label="Play">▶</button>
+        <div class="bar"><div class="track"></div><div class="fill"></div><input class="seek" type="range" min="0" max="1000" value="0"></div>
+        <span class="time">0:00 / 0:00</span>
+      </div>
+    </div>
+    <div class="track-row">
+      <div>
+        <div class="name">Chapter 1 — Full track</div>
+        <div class="desc">Includes the provenance endnote after the story</div>
+      </div>
+      <div class="player" data-src="output/ch01_full.wav">
+        <button class="play" aria-label="Play">▶</button>
+        <div class="bar"><div class="track"></div><div class="fill"></div><input class="seek" type="range" min="0" max="1000" value="0"></div>
+        <span class="time">0:00 / 0:00</span>
+      </div>
+    </div>
+  </div>
+  <div class="status" id="status"></div>
+</div>
+
+<h2>The narrator — three interpretations</h2>
+<p class="lede">The same passage, three vocal identities. Listen in order, then choose the
+one you want to live with for nine parts.</p>
+<div class="grid">
+  <div class="card">
+    <div class="tag">Deep · slow · weathered</div>
+    <h3>The Ancient Sage</h3>
+    <p class="concept">A traveller who has watched empires go by. Long pauses, low centre,
+    the patience of someone who has already said the important thing once.</p>
+    <div class="player" data-src="output/audition_ancient_sage.wav">
+      <button class="play" aria-label="Play">▶</button>
+      <div class="bar"><div class="track"></div><div class="fill"></div><input class="seek" type="range" min="0" max="1000" value="0"></div>
+      <span class="time">0:00 / 0:00</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="tag">Warm · close · amused</div>
+    <h3>The Wandering Storyteller</h3>
+    <p class="concept">Talking to one person beside a fire. Quicker, lighter, with a small
+    smile in the sentence that nobody else hears.</p>
+    <div class="player" data-src="output/audition_wandering_storyteller.wav">
+      <button class="play" aria-label="Play">▶</button>
+      <div class="bar"><div class="track"></div><div class="fill"></div><input class="seek" type="range" min="0" max="1000" value="0"></div>
+      <span class="time">0:00 / 0:00</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="tag">Majestic · spacious · mysterious</div>
+    <h3>The Cosmic Narrator</h3>
+    <p class="concept">Cathedral-sized imagination. Room around every word, a slow
+    reverberation, and the sense that the ceiling is very far away.</p>
+    <div class="player" data-src="output/audition_cosmic_narrator.wav">
+      <button class="play" aria-label="Play">▶</button>
+      <div class="bar"><div class="track"></div><div class="fill"></div><input class="seek" type="range" min="0" max="1000" value="0"></div>
+      <span class="time">0:00 / 0:00</span>
+    </div>
+  </div>
+</div>
+
+<h2>Hilma's voice</h2>
+<p class="lede">A separate female presence reads only the registered notebook quotations.
+It is not a reconstruction of anyone's speaking voice. The words are the exact machine
+translation found at <code>576DAGBO.pdf:2</code> and <code>1170LIF.pdf:26</code>.</p>
+<div class="grid">
+  <div class="card female">
+    <div class="tag">Primary · warm · unhurried</div>
+    <h3>Hilma Quotations</h3>
+    <p class="concept">Clear and steady; holds the MT wording without performing it.
+    Speaker 1 from the pitch probe (≈174 Hz).</p>
+    <div class="player" data-src="output/hilma_q01.wav">
+      <button class="play" aria-label="Play">▶</button>
+      <div class="bar"><div class="track"></div><div class="fill"></div><input class="seek" type="range" min="0" max="1000" value="0"></div>
+      <span class="time">0:00 / 0:00</span>
+    </div>
+    <p class="concept" style="min-height:0;margin:14px 0 8px">Q24 — the song of life, in the same voice.</p>
+    <div class="player" data-src="output/hilma_q24.wav">
+      <button class="play" aria-label="Play">▶</button>
+      <div class="bar"><div class="track"></div><div class="fill"></div><input class="seek" type="range" min="0" max="1000" value="0"></div>
+      <span class="time">0:00 / 0:00</span>
+    </div>
+  </div>
+  <div class="card female">
+    <div class="tag">Alternate · brighter</div>
+    <h3>Hilma Quotations — A</h3>
+    <p class="concept">Higher, lighter register (speaker 9, ≈225 Hz). Same audition
+    passage so the difference is easy to hear.</p>
+    <div class="player" data-src="output/audition_hilma_quotations_alt9.wav">
+      <button class="play" aria-label="Play">▶</button>
+      <div class="bar"><div class="track"></div><div class="fill"></div><input class="seek" type="range" min="0" max="1000" value="0"></div>
+      <span class="time">0:00 / 0:00</span>
+    </div>
+  </div>
+  <div class="card female">
+    <div class="tag">Alternate · lower</div>
+    <h3>Hilma Quotations — B</h3>
+    <p class="concept">Lower, smokier register (speaker 2, ≈162 Hz). Same audition
+    passage for a fair comparison.</p>
+    <div class="player" data-src="output/audition_hilma_quotations_alt2.wav">
+      <button class="play" aria-label="Play">▶</button>
+      <div class="bar"><div class="track"></div><div class="fill"></div><input class="seek" type="range" min="0" max="1000" value="0"></div>
+      <span class="time">0:00 / 0:00</span>
+    </div>
+  </div>
+</div>
+
+<div class="notes">
+  <strong>How this was made, and what it is not.</strong>
+  <ul>
+    <li>Engine: Piper 1.8.0, offline on CPU. Code MIT; the LibriTTS voice dataset is CC BY 4.0.</li>
+    <li>No voice cloning, no reference audio, no author recording. If a recording is supplied
+    later, it becomes a separate, consented provider — not a silent substitution.</li>
+    <li>Windows SAPI is available (Microsoft Zira Desktop only) as a fallback; edge-tts is
+    disabled because redistribution rights are unclear.</li>
+    <li>Canonical text is hashed into each track's JSON metadata. Pronunciation respelling is
+    applied to the synthesis input only.</li>
+    <li>Regenerate one passage with <code>python narration/tools/narrate.py segment --track
+    narration/output/ch01_story.json --index 2</code>.</li>
+  </ul>
+</div>
+
+</div>
+
+<script>
+(function () {
+  var status = document.getElementById('status');
+  var players = Array.prototype.slice.call(document.querySelectorAll('.player'));
+  var active = null;
+
+  function fmt(t) {
+    if (!isFinite(t)) return '0:00';
+    var m = Math.floor(t / 60), s = Math.floor(t % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  players.forEach(function (el) {
+    var audio = new Audio(el.getAttribute('data-src'));
+    audio.preload = 'metadata';
+    var btn = el.querySelector('.play');
+    var fill = el.querySelector('.fill');
+    var seek = el.querySelector('.seek');
+    var time = el.querySelector('.time');
+    el._audio = audio;
+
+    function paint() {
+      var pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+      fill.style.width = pct + '%';
+      seek.value = Math.round(pct * 10);
+      time.textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration);
+    }
+    function stop() {
+      audio.pause(); btn.textContent = '▶'; btn.classList.remove('playing');
+    }
+    el._stop = stop;
+
+    btn.addEventListener('click', function () {
+      if (active && active !== el) active._stop();
+      if (audio.paused) {
+        active = el;
+        audio.play().then(function () {
+          btn.textContent = '❚❚'; btn.classList.add('playing');
+          status.textContent = 'Now playing: ' + (el.closest('.card, .feature').querySelector('h3') || {}).textContent;
+        }).catch(function (e) { status.textContent = 'Playback error: ' + e.message; });
+      } else { stop(); }
+    });
+    audio.addEventListener('timeupdate', paint);
+    audio.addEventListener('loadedmetadata', paint);
+    audio.addEventListener('ended', function () {
+      btn.textContent = '▶'; btn.classList.remove('playing');
+    });
+    audio.addEventListener('error', function () {
+      time.textContent = 'missing';
+    });
+    seek.addEventListener('input', function () {
+      if (audio.duration) audio.currentTime = (seek.value / 1000) * audio.duration;
+    });
+  });
+})();
+</script>
+</body>
+</html>

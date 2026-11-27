@@ -1,0 +1,198 @@
+{
+  "workflow": "project-loop",
+  "cycle": 35,
+  "items": [
+    {
+      "id": "B-001",
+      "step": 0,
+      "title": "Publish MASTERPROMPT.md to GitHub for friendsofhilma",
+      "status": "done",
+      "completed": "2026-11-25",
+      "evidence": "FriendsofHilma/project-loop; D-009; P-009",
+      "priority": "high"
+    },
+    {
+      "id": "B-002",
+      "step": 1,
+      "title": "Decide archive relocation for AGENTS.md.new and dist/",
+      "status": "needs_human_decision",
+      "priority": "medium"
+    },
+    {
+      "id": "B-003",
+      "step": 1,
+      "title": "Initialize local Git repository for project-loop after approval",
+      "status": "done",
+      "priority": "medium",
+      "evidence": "D-025; local commit 3563385d8c7c81f4b761644d0d6e772ca84d315e in C:\\Users\\timsa\\AppData\\Local\\Temp\\opencode\\project-loop-gh-local; no push, merge or publication",
+      "completed": "2026-11-26"
+    },
+    {
+      "id": "B-004",
+      "step": 2,
+      "title": "Obtain NOSAD newsletter source or subscription",
+      "status": "needs_input",
+      "priority": "medium"
+    },
+    {
+      "id": "B-005",
+      "step": 3,
+      "title": "Activate step 3 after step 1 and 2 are accepted",
+      "status": "done",
+      "completed": "2026-11-25",
+      "evidence": "User activation; D-011; P-012; steps/03-project-formulation/PROJEKTPORTFÖLJ_STEG3_2026-11-25.md and PROJEKTPORTFOLJ_STEG3_2026-11-25.json",
+      "priority": "high"
+    },
+    {
+      "id": "B-006",
+      "step": 3,
+      "title": "Decide priority order and whether to activate step 4",
+      "status": "done_partial",
+      "completed": "2026-11-25",
+      "evidence": "User approved the ranking unchanged; D-012; P-013. Step 4 activation remains a separate decision in B-006b; its meaning was redefined by D-015.",
+      "priority": "high"
+    },
+    {
+      "id": "B-006b",
+      "step": 4,
+      "title": "Decide whether to activate step 4 in its redefined meaning and which approved projects receive the first visual deliverable",
+      "status": "done",
+      "completed": "2026-11-25",
+      "evidence": "User activation and approval; D-016; D-017; P-016. Step 4 was activated and completed as aesthetic integrity and graphic profile; first visual deliverable: figures/fig6–fig8 plus the local viewer. No project was given a final identity. Partnership remains in steps 6–7.",
+      "priority": "high"
+    },
+    {
+      "id": "B-007",
+      "step": 3,
+      "title": "Specify RES-04 institution, VR-approved host, eligibility details and consent before any funding framing",
+      "status": "needs_input",
+      "priority": "high"
+    },
+    {
+      "id": "B-008",
+      "step": null,
+      "title": "Choose which approved project P-01–P-07 the Arvsfonden draft should concern, and confirm the primary target group",
+      "status": "done_provisionally_local",
+      "evidence": "D-023; P-01 + P-04 and Ungdomar 12–25 chosen as [FÖRSLAG][?] in the dated local draft; human confirmation needed before a real application",
+      "priority": "high",
+      "completed": "2026-11-26"
+    },
+    {
+      "id": "B-009",
+      "step": null,
+      "title": "Resolve general-conditions version 6.0 A versus 7.0 A before any real application is signed",
+      "status": "recommendation_recorded_awaiting_human_attestation",
+      "evidence": "D-023; VERSIONSVAL_2026-11-26.md recommends 7.0 A but the attestation remains a placeholder",
+      "priority": "high",
+      "completed": "2026-11-26"
+    },
+    {
+      "id": "B-010",
+      "step": 4,
+      "title": "Approve or revise the step 4 graphic profile v0.1 before any visual deliverable is produced",
+      "status": "done",
+      "completed": "2026-11-25",
+      "evidence": "User approved v0.1 unchanged with 'Ok, det låter bra!'; D-017; P-016; steps/04-partnerships/GRAFISK_PROFIL.md is now marked approved v0.1",
+      "priority": "medium"
+    },
+    {
+      "id": "B-011",
+      "step": 5,
+      "title": "Decide whether to activate step 5 as narrative integration and choose the first integration pass",
+      "status": "done",
+      "completed": "2026-11-25",
+      "evidence": "D-020; P-020; user confirmed the written analysis and activated step 5 locally with 'Aktivera steg 5 med P-07 och F02'; state/current_step.json step_5_activated=true, current_step=5, step_5_first_pass.project=P-07 and .track=F02; local dossier, budget and strategy delivered; no external contact or application",
+      "priority": "high"
+    },
+    {
+      "id": "B-012",
+      "step": 5,
+      "title": "Resolve gates G3-G8 for P-07 and F02 before any skiss, contact or application",
+      "status": "needs_input",
+      "evidence": "D-020; steps/05-funding/ANSOKNINGSUNDERLAG_P-07.md section 0; FINANSIERINGSSTRATEGI.md section 4; G3 sökande/värd, G4 RES-04 behörighet, G5 partner, G6 rättigheter, G7 full RCH-text and G8 contact permission are all open; D-008 still forbids external contact without a separate decision",
+      "priority": "high"
+    },
+    {
+      "id": "B-013",
+      "step": 6,
+      "title": "Choose the first partner and verbatim request for the activated state integration pass",
+      "status": "done_local_arvsfonden_relation",
+      "evidence": "D-023; Arvsfondens publicerade villkor S-01–S-12 used as first local state-integration relation; no contact",
+      "priority": "high",
+      "completed": "2026-11-26"
+    },
+    {
+      "id": "B-014",
+      "step": 6,
+      "title": "Clarify whether Arvsfonden is the first state integration relation or a separate paused application draft",
+      "status": "done_by_D-023",
+      "evidence": "D-023; the separate Arvsfonden track was resumed locally and the draft was written; not submitted or signed",
+      "priority": "high",
+      "completed": "2026-11-26"
+    },
+    {
+      "id": "B-015",
+      "step": 8,
+      "title": "Verify DFRI spring plans, Klirrhack 2027 purpose/audience and Hilma Research Network mandate",
+      "status": "needs_verification",
+      "evidence": "D-024; steps/08-evaluation/HANDLINGSPLAN.md A07–A08",
+      "priority": "medium"
+    },
+    {
+      "id": "B-016",
+      "step": 9,
+      "title": "Verify licences, formats and precision for Riemann datasets before any download",
+      "status": "needs_verification",
+      "evidence": "D-028; riemann/DATASETS.md marks unverified licences",
+      "priority": "medium"
+    },
+    {
+      "id": "B-017",
+      "step": 9,
+      "title": "Continue the Swedish avhandling chapters with traceable sources",
+      "status": "open",
+      "evidence": "D-026; avhandling/00_STRUKTUR.md",
+      "priority": "medium"
+    },
+    {
+      "id": "B-018",
+      "step": 9,
+      "title": "Decide whether to replace the prime-space screensaver with an original visual asset",
+      "status": "needs_human_decision",
+      "evidence": "D-024; D-031; D-032; steps/09-renewal/dragon-screensaver/PRIMTALSRYMD.md; local deterministic fallback verified; human visual review still open",
+      "priority": "low"
+    },
+    {
+      "id": "B-019",
+      "step": 9,
+      "title": "Decide whether to push the prepared local GitHub revision",
+      "status": "needs_human_decision",
+      "evidence": "D-025; no push or merge performed",
+      "priority": "high"
+    },
+    {
+      "id": "B-020",
+      "step": 9,
+      "title": "Visually review a screenshot of the prime-space flight and confirm colours and seven-part fan",
+      "status": "needs_human_review",
+      "evidence": "D-032; canvas sampled numerically but screenshot could not be visually inspected by the agent; B-018 remains the asset decision",
+      "priority": "low"
+    },
+    {
+      "id": "B-021",
+      "step": 9,
+      "title": "Decide whether the frozen final frame should show an explicit end caption",
+      "status": "needs_human_review",
+      "evidence": "D-036; the frame is now drawn but the end state is only described in the HUD",
+      "priority": "low"
+    },
+    {
+      "id": "B-022",
+      "step": 9,
+      "title": "Visually review the local website and confirm that the nine illustrated step links read well",
+      "status": "needs_human_review",
+      "evidence": "D-043; hemsida/index.html with nine clickable SVG step images; browser checks passed but final aesthetic judgement is human",
+      "priority": "low"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cosmic Block — hela projektet på en sida</title>
+<meta name="description" content="Lokal översikt över Cosmic Block: matematik, konst, drakar, roman, avhandling, Riemann och projektloopens nio steg.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark" aria-hidden="true"></span> Cosmic Block</div>
+  <nav class="topnav" aria-label="Huvudmeny" data-i18n-aria="navMain">
+    <a href="#steps" data-i18n="navSteps">De nio stegen</a>
+    <a href="#components" data-i18n="navComponents">Komponenter</a>
+    <a href="#figures" data-i18n="navFigures">Figurer</a>
+    <a href="visa.html?f=../avhandling/README.md" data-i18n="navDissertation">Avhandling</a>
+    <a href="#about" data-i18n="navAbout">Om sidan</a>
+    <a href="visa.html?f=README.md" data-i18n="navReadme">README</a>
+    <a class="lang-link" id="lang-toggle" href="?lang=en" aria-label="Byt språk" title="Byt språk">English</a>
+  </nav>
+</header>
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-inner">
+    <span class="kicker" data-i18n="heroKicker">Lokal översikt · 27 november 2026</span>
+    <h1 id="hero-title" data-i18n-html="heroTitleHtml">Cosmic <em>Block</em></h1>
+    <p data-i18n="heroIntro">En värld av heltal, geometri och berättelser. Här finns matematiken, konstverken, drakarna, romanen, anteckningarna och projektloopens nio steg — samlade på ett ställe.</p>
+    <div class="hero-actions">
+      <a class="btn" href="#steps" data-i18n="heroCta1">UTFORSKA DE NIO STEGEN →</a>
+      <a class="btn ghost" href="#components" data-i18n="heroCta2">SE ALLA KOMPONENTER</a>
+    </div>
+    <div class="stats" id="stats" data-i18n-aria="statsLabel" aria-label="Nyckeltal"></div>
+  </div>
+</section>
+
+<main>
+  <section class="block" id="steps" aria-labelledby="steps-title">
+    <div class="section-head">
+      <span class="kicker" data-i18n="stepsKicker">Projektloopen</span>
+      <h2 id="steps-title" data-i18n="stepsTitle">Nio steg, nio bilder, nio dörrar</h2>
+      <p data-i18n="stepsIntro">Varje bild är en länk. Klicka på illustrationen för att läsa stegets egen README, eller välj ett av de mindre dokumenten under bilden.</p>
+    </div>
+    <div class="grid" id="step-grid"></div>
+  </section>
+
+  <section class="block" id="components" aria-labelledby="components-title">
+    <div class="section-head">
+      <span class="kicker" data-i18n="componentsKicker">Allt hittills</span>
+      <h2 id="components-title" data-i18n="componentsTitle">Hela projektet, komponent för komponent</h2>
+      <p data-i18n="componentsIntro">Från C11-minneskuben till röstdirigenten, från avhandlingens 18 Markdown-filer till ouroborosdraken. Sök för att filtrera.</p>
+    </div>
+    <div class="filterbar">
+      <input id="filter" type="search" placeholder="Sök bland dokument, verktyg och skärmsläckare …" aria-label="Filtrera komponenter" data-i18n-placeholder="searchPlaceholder" data-i18n-aria="searchAria">
+      <small id="filter-count"></small>
+    </div>
+    <div class="grid" id="group-grid"></div>
+    <div class="note" id="about" data-i18n-html="aboutHtml">
+      Allt är lokalt. Inga externa kontakter, inskickningar, signaturer, betalningar, personuppgifter eller publiceringar görs utan ett separat mänskligt beslut (D-008). Illustrationerna är deterministiska SVG:er som ritas av <a href="visa.html?f=tools/make-art.js">hemsida/tools/make-art.js</a> — inga externa bildtjänster används.
+    </div>
+  </section>
+
+  <section class="block" id="figures" aria-labelledby="figures-title">
+    <div class="section-head">
+      <span class="kicker" data-i18n="figuresKicker">Genererad konst</span>
+      <h2 id="figures-title" data-i18n="figuresTitle">Figurerna 1–8</h2>
+      <p data-i18n-html="figuresIntroHtml">De deterministiska figurerna från <code>tools/make-figures.js</code> och steg 4:s grafiska profil.</p>
+    </div>
+    <div class="figures" id="figure-grid"></div>
+  </section>
+</main>
+
+<footer>
+  <p data-i18n-html="footerHtml">Cosmic Block · lokal hemsida · uppdaterad <span id="updated"></span> · ingen data lämnar datorn</p>
+</footer>
+
+<script src="data.js"></script>
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
