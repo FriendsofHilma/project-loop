@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AD4M — lokal läsare</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Lokal PoC • fas 5 avslutad</p>
+        <h1>AD4M <span>— läsare</span></h1>
+        <p class="lede">Utforska den lokala AD4M-instansen genom de tjugo read-verktyg som verifierades i Phase 5. Inga skrivningar, ingen inloggning, inga neighbourhood-åtgärder.</p>
+      </div>
+      <span class="badge" id="modeBadge">LÄSLÄGE</span>
+    </header>
+
+    <section class="card status" aria-labelledby="statusTitle">
+      <h2 id="statusTitle">Status</h2>
+      <dl class="status-grid">
+        <div><dt>Executor</dt><dd id="executorState">kontrollerar …</dd></div>
+        <div><dt>Endpoint</dt><dd id="endpoint">—</dd></div>
+        <div><dt>Tillåtna verktyg</dt><dd id="toolCount">—</dd></div>
+        <div><dt>Aktiv OpenCode-config</dt><dd id="configState">—</dd></div>
+      </dl>
+      <button type="button" id="refreshStatus" class="secondary">Uppdatera status</button>
+    </section>
+
+    <section class="card" aria-labelledby="quickTitle">
+      <h2 id="quickTitle">Snabbval</h2>
+      <p class="hint">Fyller i verktyg och argument. Tryck sedan på <strong>Kör läsanrop</strong>.</p>
+      <div class="quick" id="quickActions"></div>
+    </section>
+
+    <section class="card" aria-labelledby="guideTitle">
+      <h2 id="guideTitle">Guide — läs dokumentationen</h2>
+      <p class="hint">Hämtas från executorn via <code>get_documentation</code>. Inget skrivs.</p>
+      <div class="doc-grid" id="docTopics"></div>
+      <pre id="docView" class="doc-view">Välj ett ämne ovan för att läsa AD4M:s egen guide.</pre>
+    </section>
+
+    <section class="card" aria-labelledby="schemaTitle">
+      <h2 id="schemaTitle">Schema i testperspektivet</h2>
+      <p class="hint">Visar registrerade klasser, properties och flows från <code>describe_perspective</code>.</p>
+      <div class="actions"><button type="button" id="loadSchema">Läs schema</button></div>
+      <pre id="schemaView" class="doc-view">Inget schema läst ännu.</pre>
+    </section>
+
+    <section class="card" aria-labelledby="callTitle">
+      <h2 id="callTitle">Anrop</h2>
+      <form id="callForm">
+        <label for="tool">Verktyg</label>
+        <select id="tool" name="tool"></select>
+
+        <label for="perspectiveId">Perspektiv-ID <span class="label-note">(används av flera verktyg)</span></label>
+        <input id="perspectiveId" name="perspectiveId" autocomplete="off" spellcheck="false">
+
+        <label for="args">Argument (JSON) <span class="label-note">({{P}}, {{URI}}, {{FLOW}} och {{ADDRESS}} är platshållare)</span></label>
+        <textarea id="args" name="args" rows="7" spellcheck="false">{}</textarea>
+
+        <div class="actions">
+          <button type="submit" id="runButton">Kör läsanrop</button>
+          <button type="button" id="clearButton" class="secondary">Rensa resultat</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card" aria-labelledby="catalogTitle">
+      <h2 id="catalogTitle">Verktygskatalog — alla 20</h2>
+      <p class="hint">Ett klick fyller i verktyg och startargument. Ändra argumenten vid behov.</p>
+      <div class="catalog" id="toolCatalog"></div>
+    </section>
+
+    <section class="card result-card" aria-labelledby="resultTitle">
+      <h2 id="resultTitle">Resultat <span id="resultMeta" class="meta"></span></h2>
+      <label class="inline"><input type="checkbox" id="rawToggle"> Visa rått, redacterat svar</label>
+      <pre id="result" aria-live="polite">Inget anrop ännu.</pre>
+    </section>
+
+    <footer>
+      <p>All kommunikation sker mot <code>127.0.0.1</code>. Credential läses från den separata mode-600-filen i WSL och skickas aldrig till webbläsaren. Resultat redacteras.</p>
+      <p>Skrivverktyg är blockerade i servern, inte bara dolda i gränssnittet. Att skapa data kräver ett nytt, explicit mänskligt beslut med avgränsat scope.</p>
+    </footer>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

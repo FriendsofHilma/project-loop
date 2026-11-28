@@ -14,6 +14,10 @@ node tools/serve.js
 
 Öppna sedan <http://localhost:8731/hemsida/>. Servern är den befintliga statiska servern på port 8731; den läser bara lokala filer. Hemsidan fungerar inte direkt via `file://` eftersom webbläsaren då blockerar `fetch` i `visa.html`.
 
+## Lokal AD4M-läsare
+
+Hero-knappen **ÖPPNA LOKAL AD4M-LÄSARE** länkar till <http://127.0.0.1:8733/>. Den fungerar bara när executorn och UI-servern startats lokalt med `poc/ad4m-ui/start.ps1`. Länken är ett läs-läge: inga inloggningsfält, inga lösenord och inga skrivverktyg.
+
 ## Språk
 
 Språkväxlaren ligger längst till höger i topmenyn (`English` / `Svenska`). Valet sparas i `localStorage` under `cb-lang` och kan också styras med `?lang=sv` eller `?lang=en` i adressen. `?lang=` följer med när man klickar vidare till andra sidor och in i läsaren.

@@ -525,11 +525,13 @@
       langLabel: "Byt språk",
       langToEn: "English",
       langToSv: "Svenska",
-      heroKicker: "Lokal översikt · 27 november 2026",
+      heroKicker: "Lokal översikt · 28 november 2026",
       heroTitleHtml: "Cosmic <em>Block</em>",
       heroIntro: "En värld av heltal, geometri och berättelser. Här finns matematiken, konstverken, drakarna, romanen, anteckningarna och projektloopens nio steg — samlade på ett ställe.",
       heroCta1: "UTFORSKA DE NIO STEGEN →",
       heroCta2: "SE ALLA KOMPONENTER",
+      heroCta3: "ÖPPNA LOKAL AD4M-LÄSARE →",
+      heroLocalNote: 'Lokalt läsläge. Länken går till <code>127.0.0.1:8733</code> och kräver att läsaren startas med <code>poc/ad4m-ui/start.ps1</code>. Ingen inloggning eller lösenord.',
       statsLabel: "Nyckeltal",
       stats: [
         ["35", "varv i projektloopen"],
@@ -578,11 +580,13 @@
       langLabel: "Change language",
       langToEn: "English",
       langToSv: "Svenska",
-      heroKicker: "Local overview · 27 November 2026",
+      heroKicker: "Local overview · 28 November 2026",
       heroTitleHtml: "Cosmic <em>Block</em>",
       heroIntro: "A world of integers, geometry and stories. The mathematics, the artworks, the dragons, the novel, the notebooks and the nine steps of the project loop — gathered in one place.",
       heroCta1: "EXPLORE THE NINE STEPS →",
       heroCta2: "SEE ALL COMPONENTS",
+      heroCta3: "OPEN LOCAL AD4M READER →",
+      heroLocalNote: 'Local read-only mode. The link goes to <code>127.0.0.1:8733</code> and requires the reader to be started with <code>poc/ad4m-ui/start.ps1</code>. No sign-in or password.',
       statsLabel: "Key figures",
       stats: [
         ["35", "project-loop cycles"],
@@ -642,7 +646,7 @@
 
   var api = {
     lang: lang,
-    updated: "2026-11-27",
+    updated: "2026-11-28",
     cycles: 35,
     steps: active.steps,
     groups: active.groups,
